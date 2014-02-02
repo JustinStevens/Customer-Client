@@ -18,7 +18,7 @@ public class Settings {
 		wm.getDefaultDisplay().getSize(display = new Point());
 		
 		if(display.y > display.x) {
-			int temp = display.x;
+			int temp = display.x; 
 			display.x = display.y;
 			display.y = temp;
 		}

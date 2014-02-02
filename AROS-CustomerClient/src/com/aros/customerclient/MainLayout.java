@@ -81,7 +81,7 @@ public class MainLayout {
 		this.mainLayout.setBackgroundColor(Color.DKGRAY);
 		
 		this.contentLayout = new RelativeLayout(this.a);
-		this.contentLayout.setLayoutParams(new LayoutParams(this.content_width, this.content_height));
+		this.contentLayout.setLayoutParams(new LayoutParams(this.content_width, this.getContent_height()));
 		this.contentLayout.setX(leftCol_width);
 		this.contentLayout.setY(topBar_height);
 		this.mainLayout.addView(contentLayout);
@@ -118,7 +118,7 @@ public class MainLayout {
 			this.menuButton_height = (int) (menuButton_width / 2.5);
 		
 		this.content_width = displaySize.x - leftCol_width;
-		this.content_height = displaySize.y - topBar_height;
+		this.content_height = (displaySize.y - topBar_height);
 			
 		this.menuButton_btmR_Xradius = (float) (menuButton_height * 1.0);
 		this.menuButton_btmR_Yradius = (float) (menuButton_height * 0.75);
@@ -277,5 +277,17 @@ public class MainLayout {
 	public RelativeLayout Get()
 	{
 		return this.mainLayout;
+	}
+	
+	public RelativeLayout GetContent() {
+		return this.contentLayout;
+	}
+	
+	public int getContent_height() {
+		return content_height;
+	}
+	
+	public int getContent_width() {
+		return content_width;
 	}
 }
