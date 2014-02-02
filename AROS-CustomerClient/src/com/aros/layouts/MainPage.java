@@ -1,11 +1,10 @@
-package com.aros.pages;
+package com.aros.layouts;
 
 import android.app.Activity;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.aros.customerclient.MainLayout;
 import com.aros.customerclient.R;
 
 public class MainPage {
@@ -28,8 +27,8 @@ public class MainPage {
 		ImageView ad = new ImageView(a);
 		ad.setBackgroundResource(R.drawable.ad);
 		ad.setLayoutParams(new LayoutParams(adSize, adSize));
-		this.cLayout.addView(ad);
 		ad.setX(adjust);
+		this.cLayout.addView(ad);
 		
 		ad = new ImageView(a);
 		ad.setBackgroundResource(R.drawable.ad);

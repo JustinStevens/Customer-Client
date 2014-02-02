@@ -4,7 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 
-import com.aros.pages.MainPage;
+import com.aros.layouts.MainLayout;
+import com.aros.layouts.MainPage;
 
 public class MainActivity extends Activity {
 	

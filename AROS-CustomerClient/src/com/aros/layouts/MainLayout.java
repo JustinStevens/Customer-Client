@@ -1,4 +1,4 @@
-package com.aros.customerclient;
+package com.aros.layouts;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -12,6 +12,8 @@ import android.widget.DigitalClock;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import com.aros.customerclient.R;
 
 @SuppressWarnings("deprecation")
 public class MainLayout {
@@ -47,11 +49,15 @@ public class MainLayout {
 	private float menuButton_btmR_Xradius; // Bottom Right X Radius
 	private float menuButton_btmR_Yradius; // Bottom Right Y Radius
 	private float menuButton_topR_Xradius; // Top Right X Radius
-	private float menuButton_topR_Yradius; // Top Right X Radius
+	private float menuButton_topR_Yradius; // Top Right Y Radius
 	
 	// Sizes for the radiuses used by the home button
 	private float homeButton_topR_Xradius; // Top Right X Radius
-	private float homeButton_topR_Yradius; // Top Right X Radius
+	private float homeButton_topR_Yradius; // Top Right Y Radius
+	
+	// Sizes for the radiuses used by the waitress button
+	private float waitressButton_btm_Xradius; // X Radius
+	private float waitressButton_btm_Yradius; // Y Radius
 	
 	// height of the home button
 	private int homeButton_height;
@@ -63,6 +69,10 @@ public class MainLayout {
 	// Gradients used to color and set corner radiuses for the home button
 	private GradientDrawable homeButton_normal;
 	private GradientDrawable homeButton_pressed;
+	
+	// Gradients used to color and set corner radiuses for the waitress button
+	private GradientDrawable waitressButton_normal;
+	private GradientDrawable waitressButton_pressed;
 	
 	// Temporary menu names until database is implemented
 	private String[] menuNames = new String[]{"Breakfast", "Lunch", "Dinner", "Appetizers", "Desert", "Beverages", "Bar"};
@@ -83,15 +93,17 @@ public class MainLayout {
 		this.contentLayout = new RelativeLayout(this.a);
 		this.contentLayout.setLayoutParams(new LayoutParams(this.content_width, this.getContent_height()));
 		this.contentLayout.setX(leftCol_width);
-		this.contentLayout.setY(topBar_height);
+		this.contentLayout.setY(topBar_height + 5);
 		this.mainLayout.addView(contentLayout);
 		
 		SetLogo();
 		SetHomeButton();
 		SetLeftColumn();
 		SetMenuButtons(this.menuNames);
+		
 		SetTopBar();
 		SetClock();
+		SetCallWaitressButton();
 	}
 	/****************************************************************************************
 	 * Calculates the parameters based on the devices screen size
@@ -118,7 +130,7 @@ public class MainLayout {
 			this.menuButton_height = (int) (menuButton_width / 2.5);
 		
 		this.content_width = displaySize.x - leftCol_width;
-		this.content_height = (displaySize.y - topBar_height);
+		this.content_height = (displaySize.y - topBar_height - 5);
 			
 		this.menuButton_btmR_Xradius = (float) (menuButton_height * 1.0);
 		this.menuButton_btmR_Yradius = (float) (menuButton_height * 0.75);
@@ -128,6 +140,9 @@ public class MainLayout {
 		
 		this.homeButton_topR_Xradius = (float) (menuButton_height * 1.0);
 		this.homeButton_topR_Yradius = (float) (menuButton_height * 1.0);
+		
+		this.waitressButton_btm_Xradius = (float) (topBar_height * 0.5);
+		this.waitressButton_btm_Yradius = (float) (topBar_height * 0.5);
 		
 		menuButton_normal = SetGradient(
 				new int[] { Color.LTGRAY, Color.GRAY, Color.GRAY}, 
@@ -147,6 +162,16 @@ public class MainLayout {
 		homeButton_pressed = SetGradient(
 				new int[] { Color.LTGRAY, Color.LTGRAY, Color.GRAY}, 
 				new float[]{ 0, 0, homeButton_topR_Xradius, homeButton_topR_Yradius, 0, 0, 0, 0 },
+				Color.DKGRAY, 1);
+		
+		waitressButton_normal = SetGradient(
+				new int[] { Color.LTGRAY, Color.GRAY, Color.LTGRAY}, 
+				new float[]{ 0, 0, 0, 0, waitressButton_btm_Xradius, waitressButton_btm_Yradius, waitressButton_btm_Xradius, waitressButton_btm_Yradius },
+				Color.DKGRAY, 1);
+		
+		waitressButton_pressed = SetGradient(
+				new int[] { Color.LTGRAY, Color.LTGRAY, Color.LTGRAY}, 
+				new float[]{ 0, 0, 0, 0, waitressButton_btm_Xradius, waitressButton_btm_Yradius, waitressButton_btm_Xradius, waitressButton_btm_Yradius },
 				Color.DKGRAY, 1);
 	}
 
@@ -215,7 +240,7 @@ public class MainLayout {
 		this.topBar.setX(this.leftCol_width);
 		this.topBar.setPadding(0, 0, 0, 0);
 		this.topBar.setGravity(Gravity.RIGHT);
-		this.topBar.setBackgroundResource(R.drawable.topbar);
+		//this.topBar.setBackgroundResource(R.drawable.topbar);
 		this.mainLayout.addView(this.topBar);
 		
 	}
@@ -228,8 +253,9 @@ public class MainLayout {
 		DigitalClock clock = new DigitalClock(a);
 		clock.setTextSize((float) (topBar_height / 3));
 		clock.setPadding(0, 0, 10, 0);
-		clock.setTextColor(Color.BLACK);
+		clock.setTextColor(Color.WHITE);
 		clock.setY(10);
+		clock.setId(101);
 		RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		layout.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 		this.mainLayout.addView(clock, layout);
@@ -265,6 +291,26 @@ public class MainLayout {
 	    StateListDrawable states = new StateListDrawable();
 	    states.addState(new int[] {android.R.attr.state_pressed}, homeButton_pressed);
 	    states.addState(new int[] { }, homeButton_normal);
+	    
+	    button.setBackgroundDrawable(states);
+	    this.mainLayout.addView(button, layout);
+	}
+	
+	private void SetCallWaitressButton()
+	{
+		Button button = new Button(this.a);
+	    button.setText("Call Waitress");
+	    button.setGravity(Gravity.CENTER);
+	    button.setId(100);
+	    RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(this.menuButton_width * 2, this.topBar_height);
+		layout.addRule(RelativeLayout.LEFT_OF, 101);
+		layout.setMargins(0, 0, 20, 0);
+	    button.setTextSize(this.menuButton_height / 3);
+	    button.setPadding(8, 0, 10, 0);
+	    
+	    StateListDrawable states = new StateListDrawable();
+	    states.addState(new int[] {android.R.attr.state_pressed}, waitressButton_pressed);
+	    states.addState(new int[] { }, waitressButton_normal);
 	    
 	    button.setBackgroundDrawable(states);
 	    this.mainLayout.addView(button, layout);
