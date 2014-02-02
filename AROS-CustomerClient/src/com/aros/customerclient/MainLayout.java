@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+@SuppressWarnings("deprecation")
 public class MainLayout {
 	
 	private Activity a;
@@ -39,10 +40,15 @@ public class MainLayout {
 	private float menuButton_topR_Xradius;
 	private float menuButton_topR_Yradius;
 	
+	private float homeButton_topR_Xradius;
+	private float homeButton_topR_Yradius;
+	
 	private int homeButton_height;
 	
 	private GradientDrawable menuButton_normal;
 	private GradientDrawable menuButton_pressed;
+	private GradientDrawable homeButton_normal;
+	private GradientDrawable homeButton_pressed;
 	
 	private String[] menuNames = new String[]{"Breakfast", "Lunch", "Dinner", "Appetizers", "Desert", "Beverages", "Bar"};
 	
@@ -63,7 +69,7 @@ public class MainLayout {
 	
 	private void SetParameters(Point displaySize)
 	{
-		this.leftCol_width 	 	= (int) (displaySize.x / 6.5);
+		this.leftCol_width 	 	= (int) (displaySize.x / 6);
 		this.menuButton_width 	= this.leftCol_width;
 		this.logo_width 		= this.leftCol_width;
 		this.logo_height 		= (int)(this.logo_width / 2);
@@ -83,15 +89,16 @@ public class MainLayout {
 		this.menuButton_topR_Xradius = (float) (menuButton_height * 0.2);
 		this.menuButton_topR_Yradius = (float) (menuButton_height * 0.2);
 		
+		this.homeButton_topR_Xradius = (float) (menuButton_height * 1.0);
+		this.homeButton_topR_Yradius = (float) (menuButton_height * 1.0);
+		
 		menuButton_normal = new GradientDrawable(GradientDrawable.Orientation.TL_BR, new int[] { Color.LTGRAY, Color.GRAY, Color.GRAY});
 		menuButton_normal.setGradientType(GradientDrawable.RECTANGLE);
-	    
 		menuButton_normal.setCornerRadii(new float[]{
     		0,0,
     		menuButton_topR_Xradius, menuButton_topR_Yradius,
     		menuButton_btmR_Xradius, menuButton_btmR_Yradius,
     		0,0});
-	    
 		menuButton_normal.setStroke(1, Color.DKGRAY);
 		
 		menuButton_pressed = new GradientDrawable(GradientDrawable.Orientation.TL_BR, new int[] { Color.LTGRAY, Color.LTGRAY, Color.GRAY});
@@ -101,8 +108,26 @@ public class MainLayout {
     		menuButton_topR_Xradius, menuButton_topR_Yradius,
     		menuButton_btmR_Xradius, menuButton_btmR_Yradius,
     		0,0});
-	    
 		menuButton_pressed.setStroke(1, Color.DKGRAY);
+		
+		homeButton_normal = new GradientDrawable(GradientDrawable.Orientation.TL_BR, new int[] { Color.LTGRAY, Color.GRAY, Color.GRAY});
+		homeButton_normal.setGradientType(GradientDrawable.RECTANGLE);
+		homeButton_normal.setCornerRadii(new float[]{
+    		0,0,
+    		homeButton_topR_Xradius, homeButton_topR_Yradius,
+    		0,0,
+    		0,0});
+		homeButton_normal.setStroke(1, Color.DKGRAY);
+		homeButton_normal.setSize(menuButton_width + (menuButton_width / 5), menuButton_height);
+		
+		homeButton_pressed = new GradientDrawable(GradientDrawable.Orientation.TL_BR, new int[] { Color.LTGRAY, Color.LTGRAY, Color.GRAY});
+		homeButton_pressed.setGradientType(GradientDrawable.RECTANGLE);
+		homeButton_pressed.setCornerRadii(new float[]{
+    		0,0,
+    		homeButton_topR_Xradius, homeButton_topR_Yradius,
+    		0,0,
+    		0,0});
+		homeButton_pressed.setStroke(1, Color.DKGRAY);
 	}
 	
 	
@@ -125,8 +150,8 @@ public class MainLayout {
 		    button.setGravity(Gravity.CENTER_VERTICAL);
 		    button.setLayoutParams(new LayoutParams(this.menuButton_width, this.menuButton_height));
 
-		    button.setTextSize(this.menuButton_height / 4);
-		    button.setPadding(8, 0, 10, 0);
+		    button.setTextSize((float) (this.menuButton_height / 3.75));
+		    button.setPadding(8, 0, 0, 20);
 		    
 		    StateListDrawable states = new StateListDrawable();
 		    states.addState(new int[] {android.R.attr.state_pressed}, menuButton_pressed);
@@ -169,9 +194,25 @@ public class MainLayout {
 		logo.setPadding(0, 0, 0, 0);
 		this.mainLayout.addView(logo);
 	}
+
 	private void SetHomeButton()
 	{
-		
+		Button button = new Button(this.a);
+	    button.setText("Home");
+	    button.setGravity(Gravity.CENTER_VERTICAL);
+
+	    RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(this.menuButton_width, this.menuButton_height);
+		layout.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+
+	    button.setTextSize(this.menuButton_height / 3);
+	    button.setPadding(8, 0, 10, 0);
+	    
+	    StateListDrawable states = new StateListDrawable();
+	    states.addState(new int[] {android.R.attr.state_pressed}, homeButton_pressed);
+	    states.addState(new int[] { }, homeButton_normal);
+	    
+	    button.setBackgroundDrawable(states);
+	    this.mainLayout.addView(button, layout);
 	}
 	
 	public RelativeLayout Get()

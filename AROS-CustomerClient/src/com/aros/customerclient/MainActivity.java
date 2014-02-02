@@ -6,21 +6,15 @@ import android.view.Menu;
 import android.widget.RelativeLayout;
 
 public class MainActivity extends Activity {
+	
+	MainLayout main;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 		Load();
 		
-		//RelativeLayout layout = (RelativeLayout)findViewById(R.id.mainlayout);
 		setContentView(main.Get());
-		
-		
-		
-		//MainLayout.Create(this, Settings.display);
-		
-		//layout.addView(MainLayout.Create(this, Settings.display));
 	}
 
 	@Override
@@ -30,9 +24,7 @@ public class MainActivity extends Activity {
 		return true;
 	}
 	
-	
-	MainLayout main;
-	
+	// For loading and preparing the application
 	public void Load()
 	{
 		Settings.Setup(this);
