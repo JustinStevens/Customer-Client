@@ -1,5 +1,12 @@
 package com.aros.pages;
 
-public class MainPage {
+import android.widget.RelativeLayout;
 
+public class MainPage {
+	private RelativeLayout cLayout;
+	
+	public MainPage (RelativeLayout contentLayout)
+	{
+		this.cLayout = contentLayout;
+	}
 }
