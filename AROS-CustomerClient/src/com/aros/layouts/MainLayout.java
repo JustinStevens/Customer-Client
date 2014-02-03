@@ -25,6 +25,8 @@ public class MainLayout {
 	private LinearLayout leftColumn;
 	private RelativeLayout topBar;
 	
+	private Button homeBtn;
+	
 	// Sizes for the column on the left of the layout
 	private int leftCol_width;
 	private int leftCol_height;
@@ -132,7 +134,7 @@ public class MainLayout {
 		this.content_width = displaySize.x - leftCol_width;
 		this.content_height = (displaySize.y - topBar_height - 5);
 			
-		this.menuButton_btmR_Xradius = (float) (menuButton_height * 1.0);
+		this.menuButton_btmR_Xradius = (float) (menuButton_height * 0.85);
 		this.menuButton_btmR_Yradius = (float) (menuButton_height * 0.75);
 		
 		this.menuButton_topR_Xradius = (float) (menuButton_height * 0.2);
@@ -148,7 +150,7 @@ public class MainLayout {
 				new int[] { Color.LTGRAY, Color.GRAY, Color.GRAY}, 
 				new float[]{ 0, 0, menuButton_topR_Xradius, menuButton_topR_Yradius, menuButton_btmR_Xradius, menuButton_btmR_Yradius, 0, 0 },
 				Color.DKGRAY, 1);
-		
+
 		menuButton_pressed = Functions.SetGradient(
 				new int[] { Color.LTGRAY, Color.LTGRAY, Color.GRAY}, 
 				new float[]{ 0, 0, menuButton_topR_Xradius, menuButton_topR_Yradius, menuButton_btmR_Xradius, menuButton_btmR_Yradius, 0, 0 },
@@ -272,21 +274,21 @@ public class MainLayout {
 	 */
 	private void SetHomeButton()
 	{
-		Button button = new Button(this.a);
-	    button.setText("Home");
-	    button.setGravity(Gravity.CENTER_VERTICAL);
-	    button.setId(100);
+		homeBtn = new Button(this.a);
+		homeBtn.setText("Home");
+		homeBtn.setGravity(Gravity.CENTER_VERTICAL);
+		homeBtn.setId(100);
 	    RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(this.menuButton_width, this.homeButton_height);
 		layout.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-	    button.setTextSize(this.menuButton_height / 3);
-	    button.setPadding(8, 0, 10, 0);
+		homeBtn.setTextSize(this.menuButton_height / 3);
+		homeBtn.setPadding(8, 0, 10, 0);
 	    
 	    StateListDrawable states = new StateListDrawable();
 	    states.addState(new int[] {android.R.attr.state_pressed}, homeButton_pressed);
 	    states.addState(new int[] { }, homeButton_normal);
 	    
-	    button.setBackgroundDrawable(states);
-	    this.mainLayout.addView(button, layout);
+	    homeBtn.setBackgroundDrawable(states);
+	    this.mainLayout.addView(homeBtn, layout);
 	}
 	
 	private void SetCallWaitressButton()
@@ -328,5 +330,17 @@ public class MainLayout {
 	
 	public int getContent_width() {
 		return content_width;
+	}
+	public void showHideBtn(boolean b) {
+		if(b)
+		{
+			homeBtn.setVisibility(Button.VISIBLE);
+			homeBtn.setClickable(true);
+		}
+		else
+		{
+			homeBtn.setVisibility(Button.INVISIBLE);
+			homeBtn.setClickable(false);
+		}
 	}
 }

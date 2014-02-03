@@ -19,12 +19,16 @@ public class MainPage {
 	int width;
 	int height;
 	
+	public final static int ID = 0;
+	
 	public MainPage (Activity a, MainLayout mainLayout)
 	{
 		this.mLayout = mainLayout;
-		this.cLayout = mLayout.GetContent();
 		this.width = mLayout.getContent_width();
 		this.height = mLayout.getContent_height();
+		
+		this.cLayout = new RelativeLayout(a);
+		this.cLayout.setLayoutParams(new LayoutParams(width, height));
 		
 		int adSize = height / 2;
 		int adjust = width - (adSize + adSize);
@@ -40,5 +44,10 @@ public class MainPage {
 		
 		ad_4 = new AdLayout(a, adSize, adSize + adjust, adSize);
 		this.cLayout.addView(ad_4.Get());
+	}
+	
+	public RelativeLayout Get()
+	{
+		return cLayout;
 	}
 }
