@@ -11,6 +11,11 @@ public class MainPage {
 	private MainLayout mLayout;
 	private RelativeLayout cLayout;
 	
+	public AdLayout ad_1;
+	public AdLayout ad_2;
+	public AdLayout ad_3;
+	public AdLayout ad_4;
+	
 	int width;
 	int height;
 	
@@ -24,30 +29,16 @@ public class MainPage {
 		int adSize = height / 2;
 		int adjust = width - (adSize + adSize);
 		
-		ImageView ad = new ImageView(a);
-		ad.setBackgroundResource(R.drawable.ad);
-		ad.setLayoutParams(new LayoutParams(adSize, adSize));
-		ad.setX(adjust);
-		this.cLayout.addView(ad);
+		ad_1 = new AdLayout(a, adSize, adjust, 0);
+		this.cLayout.addView(ad_1.Get());
 		
-		ad = new ImageView(a);
-		ad.setBackgroundResource(R.drawable.ad);
-		ad.setLayoutParams(new LayoutParams(adSize, adSize));
-		ad.setX(adSize + adjust);
-		this.cLayout.addView(ad);
+		ad_2 = new AdLayout(a, adSize, adSize + adjust, 0);
+		this.cLayout.addView(ad_2.Get());
 		
-		ad = new ImageView(a);
-		ad.setBackgroundResource(R.drawable.ad);
-		ad.setLayoutParams(new LayoutParams(adSize, adSize));
-		ad.setX(adjust);
-		ad.setY(adSize);
-		this.cLayout.addView(ad);
+		ad_3 = new AdLayout(a, adSize, adjust, adSize);
+		this.cLayout.addView(ad_3.Get());
 		
-		ad = new ImageView(a);
-		ad.setBackgroundResource(R.drawable.ad);
-		ad.setLayoutParams(new LayoutParams(adSize, adSize));
-		ad.setX(adSize + adjust);
-		ad.setY(adSize);
-		this.cLayout.addView(ad);
+		ad_4 = new AdLayout(a, adSize, adSize + adjust, adSize);
+		this.cLayout.addView(ad_4.Get());
 	}
 }

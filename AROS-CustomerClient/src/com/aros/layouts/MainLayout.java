@@ -13,8 +13,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.aros.customerclient.Functions;
 import com.aros.customerclient.R;
-
 @SuppressWarnings("deprecation")
 public class MainLayout {
 	
@@ -144,32 +144,32 @@ public class MainLayout {
 		this.waitressButton_btm_Xradius = (float) (topBar_height * 0.5);
 		this.waitressButton_btm_Yradius = (float) (topBar_height * 0.5);
 		
-		menuButton_normal = SetGradient(
+		menuButton_normal = Functions.SetGradient(
 				new int[] { Color.LTGRAY, Color.GRAY, Color.GRAY}, 
 				new float[]{ 0, 0, menuButton_topR_Xradius, menuButton_topR_Yradius, menuButton_btmR_Xradius, menuButton_btmR_Yradius, 0, 0 },
 				Color.DKGRAY, 1);
 		
-		menuButton_pressed = SetGradient(
+		menuButton_pressed = Functions.SetGradient(
 				new int[] { Color.LTGRAY, Color.LTGRAY, Color.GRAY}, 
 				new float[]{ 0, 0, menuButton_topR_Xradius, menuButton_topR_Yradius, menuButton_btmR_Xradius, menuButton_btmR_Yradius, 0, 0 },
 				Color.DKGRAY, 1);
 		
-		homeButton_normal = SetGradient(
+		homeButton_normal = Functions.SetGradient(
 				new int[] { Color.LTGRAY, Color.GRAY, Color.GRAY}, 
 				new float[]{ 0, 0, homeButton_topR_Xradius, homeButton_topR_Yradius, 0, 0, 0, 0 },
 				Color.DKGRAY, 1);
 		
-		homeButton_pressed = SetGradient(
+		homeButton_pressed = Functions.SetGradient(
 				new int[] { Color.LTGRAY, Color.LTGRAY, Color.GRAY}, 
 				new float[]{ 0, 0, homeButton_topR_Xradius, homeButton_topR_Yradius, 0, 0, 0, 0 },
 				Color.DKGRAY, 1);
 		
-		waitressButton_normal = SetGradient(
+		waitressButton_normal = Functions.SetGradient(
 				new int[] { Color.LTGRAY, Color.GRAY, Color.LTGRAY}, 
 				new float[]{ 0, 0, 0, 0, waitressButton_btm_Xradius, waitressButton_btm_Yradius, waitressButton_btm_Xradius, waitressButton_btm_Yradius },
 				Color.DKGRAY, 1);
 		
-		waitressButton_pressed = SetGradient(
+		waitressButton_pressed = Functions.SetGradient(
 				new int[] { Color.LTGRAY, Color.LTGRAY, Color.LTGRAY}, 
 				new float[]{ 0, 0, 0, 0, waitressButton_btm_Xradius, waitressButton_btm_Yradius, waitressButton_btm_Xradius, waitressButton_btm_Yradius },
 				Color.DKGRAY, 1);
@@ -183,14 +183,7 @@ public class MainLayout {
 	 * @param strokeWidth
 	 * @return
 	 */
-	private GradientDrawable SetGradient(int[] colors, float[] conerRadii, int stroke, int strokeWidth)
-	{
-		GradientDrawable drawable = new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, colors);
-		drawable.setGradientType(GradientDrawable.RECTANGLE);
-		drawable.setCornerRadii(conerRadii);
-		drawable.setStroke(strokeWidth, stroke);
-		return drawable;
-	}
+
 
 	/**
 	 * 
@@ -236,11 +229,11 @@ public class MainLayout {
 	private void SetTopBar()
 	{
 		this.topBar = new RelativeLayout(this.a);
-		this.topBar.setLayoutParams(new LayoutParams(this.topBar_width, this.topBar_height));
+		this.topBar.setLayoutParams(new LayoutParams(this.topBar_width, (int) (this.topBar_height / 1.35)));
 		this.topBar.setX(this.leftCol_width);
 		this.topBar.setPadding(0, 0, 0, 0);
 		this.topBar.setGravity(Gravity.RIGHT);
-		//this.topBar.setBackgroundResource(R.drawable.topbar);
+		this.topBar.setBackgroundResource(R.drawable.topbar);
 		this.mainLayout.addView(this.topBar);
 		
 	}
@@ -253,8 +246,8 @@ public class MainLayout {
 		DigitalClock clock = new DigitalClock(a);
 		clock.setTextSize((float) (topBar_height / 3));
 		clock.setPadding(0, 0, 10, 0);
-		clock.setTextColor(Color.WHITE);
-		clock.setY(10);
+		clock.setTextColor(Color.BLACK);
+		clock.setY(0);
 		clock.setId(101);
 		RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		layout.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);

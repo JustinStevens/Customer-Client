@@ -2,9 +2,10 @@ package com.aros.customerclient;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.graphics.drawable.GradientDrawable;
 import android.view.WindowManager;
 
-public class Settings {
+public class Functions {
 	public static Point display;
 	
 	public static void Setup(Context context)
@@ -22,5 +23,14 @@ public class Settings {
 			display.x = display.y;
 			display.y = temp;
 		}
+	}
+	
+	public static GradientDrawable SetGradient(int[] colors, float[] conerRadii, int stroke, int strokeWidth)
+	{
+		GradientDrawable drawable = new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, colors);
+		drawable.setGradientType(GradientDrawable.RECTANGLE);
+		drawable.setCornerRadii(conerRadii);
+		drawable.setStroke(strokeWidth, stroke);
+		return drawable;
 	}
 }

@@ -29,8 +29,8 @@ public class MainActivity extends Activity {
 	// For loading and preparing the application
 	public void Load()
 	{
-		Settings.Setup(this);
-		main = new MainLayout(this, Settings.display);
+		Functions.Setup(this);
+		main = new MainLayout(this, Functions.display);
 		mainPage = new MainPage(this, main);
 	}
 
