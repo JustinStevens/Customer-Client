@@ -7,14 +7,16 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.aros.layouts.MainLayout;
-import com.aros.layouts.MainPage;
+import com.aros.pages.MainPage;
+import com.aros.pages.MenuPage;
 
 public class MainActivity extends Activity {
 	
 	MainLayout main;
 	MainPage mainPage;
+	MenuPage menuPage;
 	RelativeLayout cLayout;
-	
+	RelativeLayout currentContent;
 	int pageId;
 	
 	@Override
@@ -23,6 +25,10 @@ public class MainActivity extends Activity {
 		Load();
 		
 		setContentView(main.Get());
+		
+		currentContent = mainPage.Get(true);
+		cLayout.addView(currentContent);
+		
 		SetOnClick();
 	}
 	
@@ -32,18 +38,20 @@ public class MainActivity extends Activity {
 		Functions.Setup(this);
 		main = new MainLayout(this, Functions.display);
 		mainPage = new MainPage(this, main);
+		menuPage = new MenuPage(this, main);
 		cLayout = main.GetContent();
 	}
 	
 	public void SetOnClick()
-	{
+	{		
 		Button btn = (Button)findViewById(100);
 
 		btn.setOnClickListener(new Button.OnClickListener() {
 		    public void onClick(View v) {
-		    	//if(cLayout.getChildAt(0) != null)
+		    	
 		    	cLayout.removeAllViews();
-		    	cLayout.addView(mainPage.Get());
+		    	currentContent = menuPage.Get(true);
+		    	cLayout.addView(currentContent);
 		    	pageId = MainPage.ID;
 		    	main.showHideBtn(false);
 		    }

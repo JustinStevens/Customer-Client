@@ -280,7 +280,7 @@ public class MainLayout {
 		homeBtn.setId(100);
 	    RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(this.menuButton_width, this.homeButton_height);
 		layout.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-		homeBtn.setTextSize(this.menuButton_height / 3);
+		homeBtn.setTextSize(this.homeButton_height / 3);
 		homeBtn.setPadding(8, 0, 10, 0);
 	    
 	    StateListDrawable states = new StateListDrawable();
@@ -300,7 +300,7 @@ public class MainLayout {
 	    RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(this.menuButton_width * 2, this.topBar_height);
 		layout.addRule(RelativeLayout.LEFT_OF, 101);
 		layout.setMargins(0, 0, 20, 0);
-	    button.setTextSize(this.menuButton_height / 3);
+	    button.setTextSize(this.topBar_height / 3);
 	    button.setPadding(8, 0, 10, 0);
 	    
 	    StateListDrawable states = new StateListDrawable();
