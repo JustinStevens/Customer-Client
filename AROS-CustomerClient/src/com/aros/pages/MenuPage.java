@@ -1,77 +1,63 @@
 package com.aros.pages;
 
-import com.aros.buttons.ItemButton;
-import com.aros.layouts.MainLayout;
-
 import android.app.Activity;
+import android.view.Gravity;
 import android.view.ViewGroup.LayoutParams;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.DecelerateInterpolator;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-public class MenuPage extends Page {
+import com.aros.abstractclasses.AbstractPage;
+import com.aros.buttons.ItemButton;
+import com.aros.customerclient.R;
+
+public class MenuPage extends AbstractPage {
 	
-	private MainLayout mLayout;
-	private RelativeLayout cLayout;
 	private LinearLayout leftColumn;
+	private LinearLayout rightColumn;
 	
-	public ItemButton ad_1;
-	public ItemButton ad_2;
-	public ItemButton ad_3;
-	public ItemButton ad_4;
-	
-	int width;
-	int height;
-	
-	public final static int ID = 0;
-	
-	public MenuPage (Activity a, MainLayout mainLayout)
+	public ItemButton item_1;
+	public ItemButton item_2;
+	public ItemButton item_3;
+	public ItemButton item_4;
+	public ItemButton item_5;
+	public ItemButton item_6;
+
+	public MenuPage (Activity a, int id, int width, int height, ItemInfo[] iInfo)
 	{
-		in = new AlphaAnimation(0, 1);
-		in.setInterpolator(new DecelerateInterpolator()); //add this
-		in.setDuration(1000);
+		super(a, id, width, height);
 		
-		out = new AlphaAnimation(0, 1);
-		out.setInterpolator(new DecelerateInterpolator()); //add this
-		out.setDuration(1000);
+		int itemWidth = (width) / 2 + 1;
+		int itemHeight = (int) (height / 3) + 1;
 		
-		
-		this.mLayout = mainLayout;
-		this.width = mLayout.getContent_width();
-		this.height = mLayout.getContent_height();
-		
-		this.cLayout = new RelativeLayout(a);
-		this.cLayout.setLayoutParams(new LayoutParams(width, height));
-		
-		int itemWidth = width / 2;
-		int itemHeight = (int) (itemWidth / 2.5);
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(itemWidth, height);
+		params.setMargins(0, 0, 0, 0);
 		
 		this.leftColumn = new LinearLayout(a);
-		this.leftColumn.setLayoutParams(new LayoutParams(itemWidth, height));
 		this.leftColumn.setOrientation(LinearLayout.VERTICAL);
-		ad_1 = new ItemButton(a, itemWidth, itemHeight, 1);
-		this.leftColumn.addView(ad_1.Get());
+		this.leftColumn.setLayoutParams(params);
 		
-		ad_2 = new ItemButton(a, itemWidth, itemHeight, 2);
-		this.leftColumn.addView(ad_2.Get());
+		params = new RelativeLayout.LayoutParams(itemWidth, height);
+		params.setMargins(itemWidth, 0, 0, 0);
+		this.rightColumn = new LinearLayout(a);
+		this.rightColumn.setOrientation(LinearLayout.VERTICAL);
+		this.rightColumn.setLayoutParams(params);
 		
-		ad_3 = new ItemButton(a, itemWidth, itemHeight, 3);
-		this.leftColumn.addView(ad_3.Get());
+		this.item_1 = new ItemButton(a, itemWidth, itemHeight, 1, iInfo[0]);
+		this.item_2 = new ItemButton(a, itemWidth, itemHeight, 2, iInfo[1]);
+		this.item_3 = new ItemButton(a, itemWidth, itemHeight, 3, iInfo[2]);
+		this.item_4 = new ItemButton(a, itemWidth, itemHeight, 4, iInfo[3]);
+		this.item_5 = new ItemButton(a, itemWidth, itemHeight, 5, iInfo[4]);
+		this.item_6 = new ItemButton(a, itemWidth, itemHeight, 6, iInfo[5]);
 		
-		ad_4 = new ItemButton(a, itemWidth, itemHeight, 4);
-		this.leftColumn.addView(ad_4.Get());
+		this.leftColumn.addView(this.item_1.Get());
+		this.leftColumn.addView(this.item_2.Get());
+		this.leftColumn.addView(this.item_3.Get());
+		this.rightColumn.addView(this.item_4.Get());
+		this.rightColumn.addView(this.item_5.Get());
+		this.rightColumn.addView(this.item_6.Get());
 		
-		this.cLayout.addView(leftColumn);
-	}
-	
-	public RelativeLayout Get(boolean in)
-	{
-		if(in)
-			cLayout.startAnimation(this.in);
-		else
-			cLayout.startAnimation(this.out);
-		return cLayout;
+		this.pLayout.addView(this.leftColumn);
+		this.pLayout.addView(this.rightColumn);
 	}
 }

@@ -1,6 +1,4 @@
-package com.aros.buttons;
-
-import com.aros.customerclient.R;
+package com.aros.abstractclasses;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -13,7 +11,9 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
-public abstract class IButton {
+import com.aros.pages.ItemInfo;
+
+public abstract class AbstractImageButton {
 	
 	protected GradientDrawable lbl_top_gradient;
 	protected GradientDrawable lbl_btm_gradient;
@@ -30,19 +30,20 @@ public abstract class IButton {
 	
 	private int id;
 	
-	protected IButton(Activity a, int id, int width, int height, int margins)
+	protected AbstractImageButton(Activity a, int id, int width, int height, int margins, ItemInfo iInfo)
 	{
-		init(a, id, width, height, margins);
+		init(a, id, width, height, margins, iInfo);
 	}
 	
-	protected IButton(Activity a, int id, int width, int height, int margins, int x, int y)
+	protected AbstractImageButton(Activity a, int id, int width, int height, int margins, int x, int y, ItemInfo iInfo)
 	{
-		init(a, id, width, height, margins);
+		init(a, id, width, height, margins, iInfo);
 		container.setX(x);
 		container.setY(y);
 	}
 	
-	private void init(Activity a, int id, int width, int height, int margins)
+	@SuppressWarnings("deprecation")
+	private void init(Activity a, int id, int width, int height, int margins, ItemInfo iInfo)
 	{
 		width = width - (margins * 2);
 		height = height - (margins * 2);
@@ -51,13 +52,13 @@ public abstract class IButton {
 		setGradients(width, height);
 		
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
-		params.setMargins(margins, margins, margins, margins);
+		//params.setMargins(margins, margins, margins, margins);
 		
 		this.container = new RelativeLayout(a);
 		this.container.setLayoutParams(params);
 		
 		params = new RelativeLayout.LayoutParams(width, height);
-		params.setMargins(margins, margins, margins, margins);
+		//params.setMargins(margins, margins, margins, margins);
 		
 		StateListDrawable states = new StateListDrawable();
 	    states.addState(new int[] {android.R.attr.state_pressed}, btn_psd_gradient);
@@ -68,38 +69,38 @@ public abstract class IButton {
 		this.btn.setLayoutParams(params);
 		
 		params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		params.setMargins(margins, margins, margins, margins);
+		//params.setMargins(margins, margins, margins, margins);
 		
 		this.lbl_top = new TextView(a);
 		this.lbl_top.setMaxWidth(width);
 		this.lbl_top.setTextColor(Color.WHITE);
-		this.lbl_top.setPadding(5, 5, 5, 10);
+		this.lbl_top.setPadding(5, 5, 15, 10);
 		this.lbl_top.setBackgroundDrawable(lbl_top_gradient);
 		this.lbl_top.setLayoutParams(params);
 		
 		params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		params.setMargins(margins, margins, margins, margins);
+		//params.setMargins(margins, margins, margins, margins);
 		params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 		params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 		
 		this.lbl_btm = new TextView(a);
 		this.lbl_btm.setMaxWidth(width);
 		this.lbl_btm.setTextColor(Color.WHITE);
-		this.lbl_btm.setPadding(10, 5, 5, 5);
+		this.lbl_btm.setPadding(15, 5, 5, 5);
 		this.lbl_btm.setGravity(Gravity.RIGHT);
 		this.lbl_btm.setBackgroundDrawable(lbl_btm_gradient);
 		this.lbl_btm.setLayoutParams(params);
 		
 		params = new RelativeLayout.LayoutParams(width, height);
-		params.setMargins(margins, margins, margins, margins);
+		//params.setMargins(margins, margins, margins, margins);
 		params.addRule(RelativeLayout.CENTER_IN_PARENT);
 		
 		this.img = new ImageView(a);
 		this.img.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		this.img.setLayoutParams(params);
 		
-		setText(height);
-		setImage();
+		setText(height, iInfo);
+		setImage(iInfo.imgResId);
 		
 		this.container.addView(img);
 		this.container.addView(lbl_top);
@@ -107,9 +108,9 @@ public abstract class IButton {
 		this.container.addView(btn);
 	}
 	
-	protected abstract void setImage();
+	protected abstract void setImage(int resId);
 	protected abstract void setGradients(int width, int height);
-	protected abstract void setText(int height);
+	protected abstract void setText(int height, ItemInfo iInfo);
 	protected abstract void setOnClick();
 	
 	public int getId() { return id; }

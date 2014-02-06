@@ -95,7 +95,7 @@ public class MainLayout {
 		this.contentLayout = new RelativeLayout(this.a);
 		this.contentLayout.setLayoutParams(new LayoutParams(this.content_width, this.getContent_height()));
 		this.contentLayout.setX(leftCol_width);
-		this.contentLayout.setY(topBar_height + 5);
+		this.contentLayout.setY(topBar_height);
 		this.mainLayout.addView(contentLayout);
 		
 		SetLogo();
@@ -125,14 +125,14 @@ public class MainLayout {
 		
 		this.leftCol_height		= displaySize.y - this.homeButton_height - this.logo_height;
 		this.menuButton_height	= this.leftCol_height / this.menuNames.length;
-		this.topBar_height		= displaySize.y / 10;
+		this.topBar_height		= displaySize.y / 16;
 		this.topBar_width		= displaySize.x - this.leftCol_width;
 		
 		if(this.menuButton_height > menuButton_width / 2.5)
 			this.menuButton_height = (int) (menuButton_width / 2.5);
 		
 		this.content_width = displaySize.x - leftCol_width;
-		this.content_height = (displaySize.y - topBar_height - 5);
+		this.content_height = (displaySize.y - topBar_height);
 			
 		this.menuButton_btmR_Xradius = (float) (menuButton_height * 0.85);
 		this.menuButton_btmR_Yradius = (float) (menuButton_height * 0.75);
@@ -148,32 +148,38 @@ public class MainLayout {
 		
 		menuButton_normal = Functions.SetGradient(
 				new int[] { Color.LTGRAY, Color.GRAY, Color.GRAY}, 
-				new float[]{ 0, 0, menuButton_topR_Xradius, menuButton_topR_Yradius, menuButton_btmR_Xradius, menuButton_btmR_Yradius, 0, 0 },
+				new float[]{ 0, 0, 0, 0, 0, 0, 0, 0 },
+				//new float[]{ 0, 0, menuButton_topR_Xradius, menuButton_topR_Yradius, menuButton_btmR_Xradius, menuButton_btmR_Yradius, 0, 0 },
 				Color.DKGRAY, 1);
 
 		menuButton_pressed = Functions.SetGradient(
-				new int[] { Color.LTGRAY, Color.LTGRAY, Color.GRAY}, 
-				new float[]{ 0, 0, menuButton_topR_Xradius, menuButton_topR_Yradius, menuButton_btmR_Xradius, menuButton_btmR_Yradius, 0, 0 },
+				new int[] { Color.WHITE, Color.LTGRAY, Color.GRAY}, 
+				new float[]{ 0, 0, 0, 0, 0, 0, 0, 0 },
+				//new float[]{ 0, 0, menuButton_topR_Xradius, menuButton_topR_Yradius, menuButton_btmR_Xradius, menuButton_btmR_Yradius, 0, 0 },
 				Color.DKGRAY, 1);
 		
 		homeButton_normal = Functions.SetGradient(
 				new int[] { Color.LTGRAY, Color.GRAY, Color.GRAY}, 
-				new float[]{ 0, 0, homeButton_topR_Xradius, homeButton_topR_Yradius, 0, 0, 0, 0 },
+				new float[]{ 0, 0, 0, 0, 0, 0, 0, 0 },
+				//new float[]{ 0, 0, homeButton_topR_Xradius, homeButton_topR_Yradius, 0, 0, 0, 0 },
 				Color.DKGRAY, 1);
 		
 		homeButton_pressed = Functions.SetGradient(
-				new int[] { Color.LTGRAY, Color.LTGRAY, Color.GRAY}, 
-				new float[]{ 0, 0, homeButton_topR_Xradius, homeButton_topR_Yradius, 0, 0, 0, 0 },
+				new int[] { Color.WHITE, Color.LTGRAY, Color.GRAY}, 
+				new float[]{ 0, 0, 0, 0, 0, 0, 0, 0 },
+				//new float[]{ 0, 0, homeButton_topR_Xradius, homeButton_topR_Yradius, 0, 0, 0, 0 },
 				Color.DKGRAY, 1);
 		
 		waitressButton_normal = Functions.SetGradient(
 				new int[] { Color.LTGRAY, Color.GRAY, Color.LTGRAY}, 
-				new float[]{ 0, 0, 0, 0, waitressButton_btm_Xradius, waitressButton_btm_Yradius, waitressButton_btm_Xradius, waitressButton_btm_Yradius },
+				new float[]{ 0, 0, 0, 0, 0, 0, 0, 0 },
+				//new float[]{ 0, 0, 0, 0, waitressButton_btm_Xradius, waitressButton_btm_Yradius, waitressButton_btm_Xradius, waitressButton_btm_Yradius },
 				Color.DKGRAY, 1);
 		
 		waitressButton_pressed = Functions.SetGradient(
 				new int[] { Color.LTGRAY, Color.LTGRAY, Color.LTGRAY}, 
-				new float[]{ 0, 0, 0, 0, waitressButton_btm_Xradius, waitressButton_btm_Yradius, waitressButton_btm_Xradius, waitressButton_btm_Yradius },
+				new float[]{ 0, 0, 0, 0, 0, 0, 0, 0 },
+				//new float[]{ 0, 0, 0, 0, waitressButton_btm_Xradius, waitressButton_btm_Yradius, waitressButton_btm_Xradius, waitressButton_btm_Yradius },
 				Color.DKGRAY, 1);
 	}
 
@@ -212,7 +218,7 @@ public class MainLayout {
 		    button.setText(menuNames[i]);
 		    button.setGravity(Gravity.CENTER_VERTICAL);
 		    button.setLayoutParams(new LayoutParams(this.menuButton_width, this.menuButton_height));
-		    button.setId(1000+i);
+		    button.setId(1001+i);
 		    button.setTextSize((float) (this.menuButton_height / 3.75));
 		    button.setPadding(8, 0, 0, 20);
 		    
@@ -225,13 +231,32 @@ public class MainLayout {
 		}
 	}
 	
+	public void SetMenuButtonSelected(int id, boolean selected)
+	{
+		Button btn = (Button)a.findViewById(id);
+		if(btn != null)
+		{
+			if(selected)
+				btn.setBackgroundDrawable(menuButton_pressed);
+			else
+			{
+			    StateListDrawable states = new StateListDrawable();
+			    states.addState(new int[] {android.R.attr.state_pressed}, menuButton_pressed);
+			    states.addState(new int[] { }, menuButton_normal);
+			    
+			    btn.setBackgroundDrawable(states);
+			}
+				
+		}
+	}
+	
 	/**
 	 * 
 	 */
 	private void SetTopBar()
 	{
 		this.topBar = new RelativeLayout(this.a);
-		this.topBar.setLayoutParams(new LayoutParams(this.topBar_width, (int) (this.topBar_height / 1.35)));
+		this.topBar.setLayoutParams(new LayoutParams(this.topBar_width, this.topBar_height));
 		this.topBar.setX(this.leftCol_width);
 		this.topBar.setPadding(0, 0, 0, 0);
 		this.topBar.setGravity(Gravity.RIGHT);
@@ -246,7 +271,7 @@ public class MainLayout {
 	private void SetClock()
 	{
 		DigitalClock clock = new DigitalClock(a);
-		clock.setTextSize((float) (topBar_height / 3));
+		clock.setTextSize((float) (topBar_height / 2));
 		clock.setPadding(0, 0, 10, 0);
 		clock.setTextColor(Color.BLACK);
 		clock.setY(0);
@@ -263,6 +288,7 @@ public class MainLayout {
 	{
 		ImageView logo = new ImageView(this.a);
 		logo.setImageDrawable(a.getResources().getDrawable(R.drawable.logo));
+		logo.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		logo.setLayoutParams(new LayoutParams(this.logo_width, this.logo_height));
 		logo.setPadding(0, 0, 0, 0);
 
@@ -277,7 +303,7 @@ public class MainLayout {
 		homeBtn = new Button(this.a);
 		homeBtn.setText("Home");
 		homeBtn.setGravity(Gravity.CENTER_VERTICAL);
-		homeBtn.setId(100);
+		homeBtn.setId(1000);
 	    RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(this.menuButton_width, this.homeButton_height);
 		layout.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 		homeBtn.setTextSize(this.homeButton_height / 3);
@@ -308,7 +334,7 @@ public class MainLayout {
 	    states.addState(new int[] { }, waitressButton_normal);
 	    
 	    button.setBackgroundDrawable(states);
-	    this.mainLayout.addView(button, layout);
+	   // this.mainLayout.addView(button, layout);
 	}
 	
 	/**

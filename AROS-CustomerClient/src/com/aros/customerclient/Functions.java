@@ -1,5 +1,7 @@
 package com.aros.customerclient;
 
+import java.lang.reflect.Field;
+
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.drawable.GradientDrawable;
@@ -32,5 +34,16 @@ public class Functions {
 		drawable.setCornerRadii(conerRadii);
 		drawable.setStroke(strokeWidth, stroke);
 		return drawable;
+	}
+	
+	public static int GetResId(String variableName, Class<?> c) {
+
+	    try {
+	        Field idField = c.getDeclaredField(variableName);
+	        return idField.getInt(idField);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return -1;
+	    } 
 	}
 }
