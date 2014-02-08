@@ -1,63 +1,38 @@
 package com.aros.pages;
 
 import android.app.Activity;
-import android.view.Gravity;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.aros.abstractclasses.AbstractPage;
-import com.aros.buttons.ItemButton;
-import com.aros.customerclient.R;
 
 public class MenuPage extends AbstractPage {
 	
-	private LinearLayout leftColumn;
-	private LinearLayout rightColumn;
-	
-	public ItemButton item_1;
-	public ItemButton item_2;
-	public ItemButton item_3;
-	public ItemButton item_4;
-	public ItemButton item_5;
-	public ItemButton item_6;
+	public ItemPage[] itemPages;
 
-	public MenuPage (Activity a, int id, int width, int height, ItemInfo[] iInfo)
+	public MenuPage (Activity a, int id, int width, int height, ItemInfo[][] iInfo)
 	{
 		super(a, id, width, height);
 		
-		int itemWidth = (width) / 2 + 1;
-		int itemHeight = (int) (height / 3) + 1;
+		itemPages = new ItemPage[iInfo.length];
 		
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(itemWidth, height);
-		params.setMargins(0, 0, 0, 0);
+		itemPages[0] = new ItemPage(a, 0, width, height, iInfo[0]);
+		itemPages[1] = new ItemPage(a, 1, width, height, iInfo[1]);
 		
-		this.leftColumn = new LinearLayout(a);
-		this.leftColumn.setOrientation(LinearLayout.VERTICAL);
-		this.leftColumn.setLayoutParams(params);
+		pLayout.addView(itemPages[0].Get());
+		pLayout.addView(itemPages[1].Get());
 		
-		params = new RelativeLayout.LayoutParams(itemWidth, height);
-		params.setMargins(itemWidth, 0, 0, 0);
-		this.rightColumn = new LinearLayout(a);
-		this.rightColumn.setOrientation(LinearLayout.VERTICAL);
-		this.rightColumn.setLayoutParams(params);
+		itemPages[0].setVisible(false);
+		itemPages[1].setVisible(false);
+	}
+	
+	public void ShowPage(int id)
+	{
+		for(int i = 0; i < itemPages.length; i++)
+		{
+			if(i == id)
+				itemPages[i].setVisible(true);
+			else
+				itemPages[i].setVisible(false);
+		}
 		
-		this.item_1 = new ItemButton(a, itemWidth, itemHeight, 1, iInfo[0]);
-		this.item_2 = new ItemButton(a, itemWidth, itemHeight, 2, iInfo[1]);
-		this.item_3 = new ItemButton(a, itemWidth, itemHeight, 3, iInfo[2]);
-		this.item_4 = new ItemButton(a, itemWidth, itemHeight, 4, iInfo[3]);
-		this.item_5 = new ItemButton(a, itemWidth, itemHeight, 5, iInfo[4]);
-		this.item_6 = new ItemButton(a, itemWidth, itemHeight, 6, iInfo[5]);
-		
-		this.leftColumn.addView(this.item_1.Get());
-		this.leftColumn.addView(this.item_2.Get());
-		this.leftColumn.addView(this.item_3.Get());
-		this.rightColumn.addView(this.item_4.Get());
-		this.rightColumn.addView(this.item_5.Get());
-		this.rightColumn.addView(this.item_6.Get());
-		
-		this.pLayout.addView(this.leftColumn);
-		this.pLayout.addView(this.rightColumn);
 	}
 }

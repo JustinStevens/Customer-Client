@@ -1,7 +1,6 @@
 package com.aros.customerclient;
 
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +9,7 @@ import android.widget.RelativeLayout;
 import com.aros.abstractclasses.AbstractPage;
 import com.aros.layouts.MainLayout;
 import com.aros.pages.ItemInfo;
+import com.aros.pages.ItemPage;
 import com.aros.pages.MainPage;
 import com.aros.pages.MenuPage;
 
@@ -38,7 +38,7 @@ public class MainActivity extends Activity {
 		
 		
 		currentPage = mainPage;
-		currentPage.PlayAnimation(MenuPage.PLAY_APPEAR_ANIMATION);
+		currentPage.PlayAnimation(ItemPage.PLAY_APPEAR_ANIMATION);
 		currentPage.setVisible(true);
 
 		btn_home = (Button)findViewById(1000);
@@ -55,13 +55,20 @@ public class MainActivity extends Activity {
 		main = new MainLayout(this, Functions.display);
 		packageName = getApplicationContext().getPackageName();
 		
-		ItemInfo[] iInfo = new ItemInfo[6];
-		iInfo[0] = new ItemInfo(getResources().getIdentifier("drawable/food1", null, packageName), "Leftover Fruit", 10.99f);
-		iInfo[1] = new ItemInfo(getResources().getIdentifier("drawable/food2", null, packageName), "Pizza off the Floor", 12.99f);
-		iInfo[2] = new ItemInfo(getResources().getIdentifier("drawable/food3", null, packageName), "Soggy Hamburger", 4.49f);
-		iInfo[3] = new ItemInfo(getResources().getIdentifier("drawable/food4", null, packageName), "Undercooked Pancakes", 11.49f);
-		iInfo[4] = new ItemInfo(getResources().getIdentifier("drawable/food5", null, packageName), "Overripe Fruit", 11.99f);
-		iInfo[5] = new ItemInfo(getResources().getIdentifier("drawable/food6", null, packageName), "Stale Sushi", 12.49f);
+		ItemInfo[][] iInfo = new ItemInfo[2][6];
+		iInfo[0][0] = new ItemInfo(getResources().getIdentifier("drawable/food1", null, packageName), "Leftover Fruit", 10.99f);
+		iInfo[0][1] = new ItemInfo(getResources().getIdentifier("drawable/food2", null, packageName), "Pizza off the Floor", 12.99f);
+		iInfo[0][2] = new ItemInfo(getResources().getIdentifier("drawable/food3", null, packageName), "Soggy Hamburger", 4.49f);
+		iInfo[0][3] = new ItemInfo(getResources().getIdentifier("drawable/food4", null, packageName), "Undercooked Pancakes", 11.49f);
+		iInfo[0][4] = new ItemInfo(getResources().getIdentifier("drawable/food5", null, packageName), "Overripe Fruit", 11.99f);
+		iInfo[0][5] = new ItemInfo(getResources().getIdentifier("drawable/food6", null, packageName), "Stale Sushi", 12.49f);
+		
+		iInfo[1][0] = new ItemInfo(getResources().getIdentifier("drawable/food1", null, packageName), "Leftover Fruit", 10.99f);
+		iInfo[1][1] = new ItemInfo(getResources().getIdentifier("drawable/food1", null, packageName), "Pizza off the Floor", 12.99f);
+		iInfo[1][2] = new ItemInfo(getResources().getIdentifier("drawable/food1", null, packageName), "Soggy Hamburger", 4.49f);
+		iInfo[1][3] = new ItemInfo(getResources().getIdentifier("drawable/food1", null, packageName), "Undercooked Pancakes", 11.49f);
+		iInfo[1][4] = new ItemInfo(getResources().getIdentifier("drawable/food1", null, packageName), "Overripe Fruit", 11.99f);
+		iInfo[1][5] = new ItemInfo(getResources().getIdentifier("drawable/food1", null, packageName), "Stale Sushi", 12.49f);
 		
 		ItemInfo[] iInfo2 = new ItemInfo[4];
 		iInfo2[0] = new ItemInfo(getResources().getIdentifier("drawable/special1", null, packageName), "Cheescake", "1% Off until February 31st!");
@@ -122,13 +129,14 @@ public class MainActivity extends Activity {
 				break;
 			case 1001:
 		    	currentPage = menuPage;
+		    	((MenuPage)currentPage).ShowPage(1);
 				break;
 			}
 			
 			currentPage.setVisible(true);
-			previousPage.PlayAnimation(MenuPage.PLAY_DISAPPEAR_ANIMATION);
+			previousPage.PlayAnimation(ItemPage.PLAY_DISAPPEAR_ANIMATION);
 			previousPage.setVisible(false);
-	    	currentPage.PlayAnimation(MenuPage.PLAY_APPEAR_ANIMATION);
+	    	currentPage.PlayAnimation(ItemPage.PLAY_APPEAR_ANIMATION);
 		}
 	}
 }
