@@ -3,8 +3,6 @@ package com.aros.abstractclasses;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -13,6 +11,7 @@ import android.view.animation.Animation;
 import android.widget.RelativeLayout;
 
 import com.aros.customerclient.Functions;
+import com.aros.customerclient.MainActivity;
 
 public abstract class AbstractPage {
 	
@@ -34,14 +33,17 @@ public abstract class AbstractPage {
 	
 	private int id = 0;
 	
-	public AbstractPage(Activity a, int id, int width, int height)
+	protected MainActivity a;
+	
+	public AbstractPage(MainActivity a, int id, int width, int height)
 	{
 		init(a, id, width, height);
 	}
 	
-	private void init(Activity a, int id, int width, int height)
+	private void init(MainActivity a, int id, int width, int height)
 	{
 		this.id = id;
+		this.a = a;
 		this.pLayout = new RelativeLayout(a);
 		this.pLayout.setLayoutParams(new LayoutParams(width, height));
 		this.pLayout.setBackgroundColor(Color.DKGRAY);

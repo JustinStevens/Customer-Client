@@ -33,8 +33,9 @@ public class MenuPage extends AbstractPage {
 	
 	private Button btn_next;
 	private Button btn_prev;
+	private Button btn_home;
 	
-	public MenuPage (Activity a, int id, int width, int height, ItemInfo[][] iInfo)
+	public MenuPage (MainActivity a, int id, int width, int height, ItemInfo[][] iInfo)
 	{
 		super(a, id, width, height);
 
@@ -60,23 +61,13 @@ public class MenuPage extends AbstractPage {
 		itemPages[0].setVisible(false);
 		itemPages[1].setVisible(false);
 		
-		btn_prev = SetButton(a, "Previous", Ids.BTN_MENU_PREV, 0, this.content_height, (int)(this.bar_height * 2.25), this.bar_height);
-		btn_next = SetButton(a, "Next", Ids.BTN_MENU_NEXT, (this.content_width - (int)(this.bar_height * 2.25)), this.content_height, (int)(this.bar_height * 2.25), this.bar_height);
-		
-		btn_prev.setOnClickListener(new Button.OnClickListener() {
-		    public void onClick(View v) {
-		    	OnClick(v);
-		    }
-		});
-		
-		btn_next.setOnClickListener(new Button.OnClickListener() {
-		    public void onClick(View v) {
-		    	OnClick(v);
-		    }
-		});
+		btn_prev = SetButton(a, "Previous", Ids.BTN_MENU_PREV, 0, this.content_height, (int)(this.bar_height * 2.5), this.bar_height);
+		btn_next = SetButton(a, "Next", Ids.BTN_MENU_NEXT, (this.content_width - (int)(this.bar_height * 2.5)), this.content_height, (int)(this.bar_height * 2.5), this.bar_height);
+		btn_home = SetButton(a, "Home", Ids.BTN_MENU_HOME, (this.content_width / 2 - (int)(this.bar_height * 2.5 / 2)), this.content_height, (int)(this.bar_height * 2.5), this.bar_height);
 
 		this.pLayout.addView(btn_prev);
 		this.pLayout.addView(btn_next);
+		this.pLayout.addView(btn_home);
 		this.pLayout.addView(touchLayout);
 		
 		SetButtonVisibility();
@@ -104,12 +95,12 @@ public class MenuPage extends AbstractPage {
 		        	time_up = System.currentTimeMillis();
 		        	float distance = (float) Math.sqrt((X-downX) * (X-downX) + (Y-downY) * (Y-downY));
 	                float speed = distance / (time_up - time_down);
-		        	CheckMove(speed);
 		        	
-		        	itemPages[curr_page].Get().dispatchTouchEvent(event);
-		        		
+	                itemPages[curr_page].Get().dispatchTouchEvent(event);
 		        	if(moving)
 		        		itemPages[curr_page].SetClickable(true);
+	                
+		        	CheckMove(speed);
 		        	
 		        	moving = false;
 		        	break;
@@ -118,10 +109,10 @@ public class MenuPage extends AbstractPage {
 		        		                
 		        	curr_moveX = prevX - X;
 		        	total_movedX += curr_moveX;
-		        	
+
 		        	if(moving || total_movedX > 10 || total_movedX < -10)
 		        	{
-		        		if(moving || total_movedX > 20 || total_movedX < -20)
+		        		if(moving || total_movedX > 25 || total_movedX < -25)
 		        		{
 		        			moving = true;
 		        			itemPages[curr_page].SetClickable(false);
@@ -208,6 +199,12 @@ public class MenuPage extends AbstractPage {
 	    states.addState(new int[] { }, menuButton_normal);
 	    button.setBackgroundDrawable(states);
 	    
+	    button.setOnClickListener(new Button.OnClickListener() {
+		    public void onClick(View v) {
+		    	OnClick(v);
+		    }
+		});
+	    
 	    return button;
 	}
 	
@@ -217,6 +214,7 @@ public class MenuPage extends AbstractPage {
 		{
 		case Ids.BTN_MENU_NEXT: GoToNextPage(); break;
 		case Ids.BTN_MENU_PREV: GoToPrevPage(); break;
+		case Ids.BTN_MENU_HOME: a.OnClick(v); break;
 		}
 	}
 	

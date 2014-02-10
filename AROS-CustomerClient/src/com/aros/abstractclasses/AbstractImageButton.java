@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -12,6 +13,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.aros.customerclient.ItemInfo;
+import com.aros.customerclient.MainActivity;
 
 public abstract class AbstractImageButton {
 	
@@ -30,12 +32,14 @@ public abstract class AbstractImageButton {
 	
 	private int id;
 	
-	protected AbstractImageButton(Activity a, int id, int width, int height, int margins, ItemInfo iInfo)
+	protected MainActivity a;
+	
+	protected AbstractImageButton(MainActivity a, int id, int width, int height, int margins, ItemInfo iInfo)
 	{
 		init(a, id, width, height, margins, iInfo);
 	}
 	
-	protected AbstractImageButton(Activity a, int id, int width, int height, int margins, int x, int y, ItemInfo iInfo)
+	protected AbstractImageButton(MainActivity a, int id, int width, int height, int margins, int x, int y, ItemInfo iInfo)
 	{
 		init(a, id, width, height, margins, iInfo);
 		container.setX(x);
@@ -43,11 +47,11 @@ public abstract class AbstractImageButton {
 	}
 	
 	@SuppressWarnings("deprecation")
-	private void init(Activity a, int id, int width, int height, int margins, ItemInfo iInfo)
+	private void init(MainActivity a, int id, int width, int height, int margins, ItemInfo iInfo)
 	{
 		width = width - (margins * 2);
 		height = height - (margins * 2);
-		
+		this.a = a;
 		this.id = id;
 		setGradients(width, height);
 		
@@ -106,12 +110,19 @@ public abstract class AbstractImageButton {
 		this.container.addView(lbl_top);
 		this.container.addView(lbl_btm);
 		this.container.addView(btn);
+		
+		btn.setOnClickListener(new Button.OnClickListener() {
+		    public void onClick(View v) {
+		    	OnClick(v);
+		    }
+		});
 	}
 	
 	protected abstract void setImage(int resId);
 	protected abstract void setGradients(int width, int height);
 	protected abstract void setText(int height, ItemInfo iInfo);
 	protected abstract void setOnClick();
+	protected abstract void OnClick(View v);
 	
 	public int getId() { return id; }
 	

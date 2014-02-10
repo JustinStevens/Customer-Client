@@ -17,4 +17,7 @@ public class Ids {
 	public final static int BTN_MENU_PREV = 1200;
 	public final static int BTN_MENU_NEXT = 1201;
 	public final static int BTN_MENU_RETURN = 1202;
+	public final static int BTN_MENU_HOME = 1203;
+	
+	public final static int BTN_MENU_LIST_START = 1300;
 }

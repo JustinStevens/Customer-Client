@@ -1,6 +1,5 @@
 package com.aros.pages;
 
-import android.app.Activity;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
@@ -10,6 +9,7 @@ import android.widget.RelativeLayout;
 import com.aros.abstractclasses.AbstractPage;
 import com.aros.buttons.ItemButton;
 import com.aros.customerclient.ItemInfo;
+import com.aros.customerclient.MainActivity;
 
 public class ItemPage extends AbstractPage {
 	
@@ -31,7 +31,7 @@ public class ItemPage extends AbstractPage {
 	int width;
 	int height;
 	
-	public ItemPage (Activity a, int id, int width, int height, ItemInfo[] iInfo)
+	public ItemPage (MainActivity a, int id, int width, int height, ItemInfo[] iInfo)
 	{
 		super(a, id, width, height);
 		this.width = width;
@@ -73,12 +73,12 @@ public class ItemPage extends AbstractPage {
 	
 	public void SetClickable(boolean clickable)
 	{
-		this.item_1.Get().setClickable(clickable);
-		this.item_2.Get().setClickable(clickable);
-		this.item_3.Get().setClickable(clickable);
-		this.item_4.Get().setClickable(clickable);
-		this.item_5.Get().setClickable(clickable);
-		this.item_6.Get().setClickable(clickable);
+		this.item_1.SetClickable(clickable);
+		this.item_2.SetClickable(clickable);
+		this.item_3.SetClickable(clickable);
+		this.item_4.SetClickable(clickable);
+		this.item_5.SetClickable(clickable);
+		this.item_6.SetClickable(clickable);
 	}
 	
 	public void PlayAnimation(int startX, int endX)

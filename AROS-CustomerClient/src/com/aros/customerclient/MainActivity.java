@@ -5,16 +5,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.aros.abstractclasses.AbstractPage;
 import com.aros.pages.ItemPage;
 import com.aros.pages.MainPage;
+import com.aros.pages.MenuListPage;
 import com.aros.pages.MenuPage;
 
 public class MainActivity extends Activity {
 	
 	MainPage mainPage;
 	MenuPage menuPage;
+	MenuListPage menuListPage;
 	RelativeLayout container;
 	AbstractPage currentPage;
 	AbstractPage previousPage;
@@ -33,13 +36,11 @@ public class MainActivity extends Activity {
 		
 		container.addView(mainPage.Get());
 		container.addView(menuPage.Get());
-		
+		container.addView(menuListPage.Get());
 		
 		currentPage = mainPage;
 		currentPage.PlayAnimation(ItemPage.PLAY_APPEAR_ANIMATION);
 		currentPage.setVisible(true);
-
-		SetOnClick();
 	}
 	
 	// For loading and preparing the application
@@ -72,39 +73,50 @@ public class MainActivity extends Activity {
 		iInfo2[2] = new ItemInfo(getResources().getIdentifier("drawable/special3", null, packageName), "Wine", "Now Available!");
 		iInfo2[3] = new ItemInfo(getResources().getIdentifier("drawable/special4", null, packageName), "Icecream", "Now with strawberries! Get them before we run out!");
 		
+		String[] menuNames = new String[]{"Breakfast", "Lunch", "Dinner", "Appetizers", "Desert", "Beverages", "Bar"};
+		
 		mainPage = new MainPage(this, 0, width, height, iInfo2);
 		menuPage = new MenuPage(this, 1, width, height, iInfo);
-	}
-	
-	public void SetOnClick()
-	{		
-		Button btn = (Button)findViewById(Ids.BTN_MENU_ID);
-
-		btn.setOnClickListener(new Button.OnClickListener() {
-		    public void onClick(View v) {
-		    	OnClick(v);
-		    }
-		});
+		menuListPage = new MenuListPage(this, 2, width, height, menuNames);
 	}
 	
 	int prev = -1;
 		
 	public void OnClick(View v)
 	{
-		previousPage = currentPage;
-		currentPage.setVisible(false);
-		
 		switch(v.getId())
 		{
 		case Ids.BTN_MENU_ID:
-	    	currentPage = menuPage;
-	    	((MenuPage)currentPage).ShowPage(0);
+			ChangePage(menuListPage);
 			break;
+			
+		case (Ids.BTN_MENU_LIST_START + 0):
+			ChangePage(menuPage);
+	    	((MenuPage)currentPage).ShowPage(0);
+	    	break;
+		case Ids.BTN_MENU_HOME:
+	    	ChangePage(mainPage);
+			break;
+		default: NotImplemented();
 		}
+	}
+	
+	private void ChangePage(AbstractPage page)
+	{
+		previousPage = currentPage;
+		currentPage.setVisible(false);
 		
+		currentPage = page;
+
 		currentPage.setVisible(true);
 		previousPage.PlayAnimation(ItemPage.PLAY_DISAPPEAR_ANIMATION);
 		previousPage.setVisible(false);
     	currentPage.PlayAnimation(ItemPage.PLAY_APPEAR_ANIMATION);
+	}
+	
+	private void NotImplemented()
+	{
+		Toast toast = Toast.makeText(this, "This feature is not yet implemented.", 1000);
+		toast.show();
 	}
 }

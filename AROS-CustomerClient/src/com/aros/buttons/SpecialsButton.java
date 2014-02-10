@@ -1,22 +1,22 @@
 package com.aros.buttons;
 
-import android.app.Activity;
 import android.graphics.Color;
+import android.view.View;
 
 import com.aros.abstractclasses.AbstractImageButton;
 import com.aros.customerclient.Functions;
 import com.aros.customerclient.ItemInfo;
-import com.aros.customerclient.R;
+import com.aros.customerclient.MainActivity;
 
 public class SpecialsButton extends AbstractImageButton {
 	private static int MARGINS = 1;
 	
-	public SpecialsButton(Activity a, int width, int height, int id, ItemInfo iInfo)
+	public SpecialsButton(MainActivity a, int width, int height, int id, ItemInfo iInfo)
 	{
 		super(a, id, width, height, MARGINS, iInfo);
 	}
 	
-	public SpecialsButton(Activity a, int width, int height, int id, int x, int y, ItemInfo iInfo)
+	public SpecialsButton(MainActivity a, int width, int height, int id, int x, int y, ItemInfo iInfo)
 	{
 		super(a, id, width, height, MARGINS, x, y, iInfo);
 	}
@@ -61,5 +61,10 @@ public class SpecialsButton extends AbstractImageButton {
 	@Override
 	protected void setOnClick() {
 
+	}
+
+	@Override
+	protected void OnClick(View v) {
+		a.OnClick(v);
 	}
 }
