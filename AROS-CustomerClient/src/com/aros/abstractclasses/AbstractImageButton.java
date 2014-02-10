@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
-import com.aros.pages.ItemInfo;
+import com.aros.customerclient.ItemInfo;
 
 public abstract class AbstractImageButton {
 	

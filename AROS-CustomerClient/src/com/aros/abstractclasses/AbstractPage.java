@@ -1,12 +1,18 @@
 package com.aros.abstractclasses;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.RelativeLayout;
+
+import com.aros.customerclient.Functions;
 
 public abstract class AbstractPage {
 	
@@ -16,12 +22,15 @@ public abstract class AbstractPage {
 	
 	protected RelativeLayout pLayout;
 	
-	protected static Animation in;
-	protected static Animation out;
+	protected static Animation fade_in;
+	protected static Animation fade_out;
 	
 	private boolean animSet = false;
-	private static boolean in_animPlaying = false;
-	private static boolean out_animPlaying = false;
+	protected static boolean animPlaying = false;
+	
+	// Gradients used to color and set corner radiuses for the menu buttons
+	protected GradientDrawable menuButton_normal;
+	protected GradientDrawable menuButton_pressed;
 	
 	private int id = 0;
 	
@@ -35,44 +44,63 @@ public abstract class AbstractPage {
 		this.id = id;
 		this.pLayout = new RelativeLayout(a);
 		this.pLayout.setLayoutParams(new LayoutParams(width, height));
+		this.pLayout.setBackgroundColor(Color.DKGRAY);
+		this.pLayout.setId(id);
 		if(!this.animSet)
-			setAnimations();
+			setAnimations(width, height);
 		
 		this.setVisible(false);
+		
+		menuButton_normal = Functions.SetGradient(
+				new int[] { Color.LTGRAY, Color.GRAY, Color.GRAY}, 
+				new float[]{ 0, 0, 0, 0, 0, 0, 0, 0 },
+				//new float[]{ 0, 0, menuButton_topR_Xradius, menuButton_topR_Yradius, menuButton_btmR_Xradius, menuButton_btmR_Yradius, 0, 0 },
+				Color.DKGRAY, 1);
+
+		menuButton_pressed = Functions.SetGradient(
+				new int[] { Color.WHITE, Color.LTGRAY, Color.GRAY}, 
+				new float[]{ 0, 0, 0, 0, 0, 0, 0, 0 },
+				//new float[]{ 0, 0, menuButton_topR_Xradius, menuButton_topR_Yradius, menuButton_btmR_Xradius, menuButton_btmR_Yradius, 0, 0 },
+				Color.DKGRAY, 1);
 	}
 	
-	private void setAnimations()
+	private void setAnimations(int width, int height)
 	{
-		in = new AlphaAnimation(0, 1);
-		in.setInterpolator(new AccelerateDecelerateInterpolator());
-		in.setDuration(1000);
-		out = new AlphaAnimation(1, 0);
-		out.setInterpolator(new AccelerateDecelerateInterpolator());
-		out.setDuration(1000);
+		fade_in = new AlphaAnimation(0, 1);
+		fade_in.setInterpolator(new AccelerateDecelerateInterpolator());
+		fade_in.setDuration(1000);
+		fade_out = new AlphaAnimation(1, 0);
+		fade_out.setInterpolator(new AccelerateDecelerateInterpolator());
+		fade_out.setDuration(1000);
 		
-		in.setAnimationListener(new Animation.AnimationListener() 
+		/*in = new TranslateAnimation(start_x, start_y, end_x, end_y);
+		animation.setDuration(1000); // duartion in ms
+		animation.setFillAfter(false);*/
+		
+		fade_in.setAnimationListener(new Animation.AnimationListener() 
 		{
             @Override
-            public void onAnimationStart(Animation animation) { in_animPlaying = true; }
+            public void onAnimationStart(Animation animation) { animPlaying = true; }
 
             @Override
-            public void onAnimationEnd(Animation animation) { in_animPlaying = false;}
+            public void onAnimationEnd(Animation animation) { animPlaying = false;}
 
             @Override
             public void onAnimationRepeat(Animation animation) { }
         });
 		
-		out.setAnimationListener(new Animation.AnimationListener() 
+		fade_out.setAnimationListener(new Animation.AnimationListener() 
 		{
             @Override
-            public void onAnimationStart(Animation animation) { out_animPlaying = true; }
+            public void onAnimationStart(Animation animation) { animPlaying = true; }
 
             @Override
-            public void onAnimationEnd(Animation animation) { out_animPlaying = false;}
+            public void onAnimationEnd(Animation animation) { animPlaying = false;}
 
             @Override
             public void onAnimationRepeat(Animation animation) { }
         });
+		
 		
 		this.animSet = true;
 	}
@@ -81,19 +109,14 @@ public abstract class AbstractPage {
 	{
 		switch(animation)
 		{
-		case PLAY_APPEAR_ANIMATION: 	pLayout.startAnimation(in);	 break;
-		case PLAY_DISAPPEAR_ANIMATION: 	pLayout.startAnimation(out); break;
+		case PLAY_APPEAR_ANIMATION: 		pLayout.startAnimation(fade_in);  break;
+		case PLAY_DISAPPEAR_ANIMATION: 		pLayout.startAnimation(fade_out); break;
 		}
 	}
 	
 	public static boolean IsInAnimationPlaying()
 	{
-		return in_animPlaying;
-	}
-	
-	public static boolean IsOutAnimationPlaying()
-	{
-		return out_animPlaying;
+		return animPlaying;
 	}
 
 	public void setVisible(boolean b) {
@@ -105,6 +128,5 @@ public abstract class AbstractPage {
 	
 	public int GetId() { return id; }
 	public RelativeLayout Get() { return pLayout; }
-	
 		
 }

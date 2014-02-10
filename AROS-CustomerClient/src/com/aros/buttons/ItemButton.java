@@ -5,7 +5,7 @@ import android.graphics.Color;
 
 import com.aros.abstractclasses.AbstractImageButton;
 import com.aros.customerclient.Functions;
-import com.aros.pages.ItemInfo;
+import com.aros.customerclient.ItemInfo;
 
 public class ItemButton extends AbstractImageButton {
 	private static int MARGINS = 1;
@@ -60,5 +60,11 @@ public class ItemButton extends AbstractImageButton {
 	@Override
 	protected void setOnClick() {
 
+	}
+	
+	public void SetClickable(boolean clickable)
+	{
+		btn.setClickable(clickable);
+		btn.setEnabled(clickable);
 	}
 }

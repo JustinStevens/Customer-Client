@@ -7,44 +7,38 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.aros.abstractclasses.AbstractPage;
-import com.aros.layouts.MainLayout;
-import com.aros.pages.ItemInfo;
 import com.aros.pages.ItemPage;
 import com.aros.pages.MainPage;
 import com.aros.pages.MenuPage;
 
 public class MainActivity extends Activity {
 	
-	MainLayout main;
 	MainPage mainPage;
 	MenuPage menuPage;
-	RelativeLayout cLayout;
+	RelativeLayout container;
 	AbstractPage currentPage;
 	AbstractPage previousPage;
 	
-	private String packageName;
+	int height;
+	int width;
 	
-	Button btn_home;
+	private String packageName;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Load();
+		container = new RelativeLayout(this);
+		setContentView(container);
 		
-		setContentView(main.Get());
-		
-		cLayout.addView(mainPage.Get());
-		cLayout.addView(menuPage.Get());
+		container.addView(mainPage.Get());
+		container.addView(menuPage.Get());
 		
 		
 		currentPage = mainPage;
 		currentPage.PlayAnimation(ItemPage.PLAY_APPEAR_ANIMATION);
 		currentPage.setVisible(true);
 
-		btn_home = (Button)findViewById(1000);
-		
-		btn_home.setVisibility(View.GONE);
-		
 		SetOnClick();
 	}
 	
@@ -52,7 +46,9 @@ public class MainActivity extends Activity {
 	public void Load()
 	{
 		Functions.Setup(this);
-		main = new MainLayout(this, Functions.display);
+		this.width = Functions.display.x;
+		this.height = Functions.display.y;
+		
 		packageName = getApplicationContext().getPackageName();
 		
 		ItemInfo[][] iInfo = new ItemInfo[2][6];
@@ -76,23 +72,14 @@ public class MainActivity extends Activity {
 		iInfo2[2] = new ItemInfo(getResources().getIdentifier("drawable/special3", null, packageName), "Wine", "Now Available!");
 		iInfo2[3] = new ItemInfo(getResources().getIdentifier("drawable/special4", null, packageName), "Icecream", "Now with strawberries! Get them before we run out!");
 		
-		mainPage = new MainPage(this, 0, main.getContent_width(), main.getContent_height(), iInfo2);
-		menuPage = new MenuPage(this, 1, main.getContent_width(), main.getContent_height(), iInfo);
-		cLayout = main.GetContent();
+		mainPage = new MainPage(this, 0, width, height, iInfo2);
+		menuPage = new MenuPage(this, 1, width, height, iInfo);
 	}
 	
 	public void SetOnClick()
 	{		
-		Button btn = (Button)findViewById(1000);
+		Button btn = (Button)findViewById(Ids.BTN_MENU_ID);
 
-		btn.setOnClickListener(new Button.OnClickListener() {
-		    public void onClick(View v) {
-		    	OnClick(v);
-		    }
-		});
-		
-		btn = (Button)findViewById(1001);
-		
 		btn.setOnClickListener(new Button.OnClickListener() {
 		    public void onClick(View v) {
 		    	OnClick(v);
@@ -104,39 +91,20 @@ public class MainActivity extends Activity {
 		
 	public void OnClick(View v)
 	{
-		if(!AbstractPage.IsInAnimationPlaying() && !AbstractPage.IsOutAnimationPlaying() && (v.getId() - 1000) != currentPage.GetId())
+		previousPage = currentPage;
+		currentPage.setVisible(false);
+		
+		switch(v.getId())
 		{
-			previousPage = currentPage;
-			//currentPage.setVisible(false);
-			
-			if(v.getId() == 1000)
-				btn_home.setVisibility(View.GONE);
-			else
-			{
-				btn_home.setVisibility(View.VISIBLE);
-			}
-			
-			if(prev != 1000)
-				main.SetMenuButtonSelected(prev, false);
-			if(v.getId() != 1000)
-				main.SetMenuButtonSelected(v.getId(), true);
-	    	prev = v.getId();
-			
-			switch(v.getId())
-			{
-			case 1000:
-		    	currentPage = mainPage;
-				break;
-			case 1001:
-		    	currentPage = menuPage;
-		    	((MenuPage)currentPage).ShowPage(1);
-				break;
-			}
-			
-			currentPage.setVisible(true);
-			previousPage.PlayAnimation(ItemPage.PLAY_DISAPPEAR_ANIMATION);
-			previousPage.setVisible(false);
-	    	currentPage.PlayAnimation(ItemPage.PLAY_APPEAR_ANIMATION);
+		case Ids.BTN_MENU_ID:
+	    	currentPage = menuPage;
+	    	((MenuPage)currentPage).ShowPage(0);
+			break;
 		}
+		
+		currentPage.setVisible(true);
+		previousPage.PlayAnimation(ItemPage.PLAY_DISAPPEAR_ANIMATION);
+		previousPage.setVisible(false);
+    	currentPage.PlayAnimation(ItemPage.PLAY_APPEAR_ANIMATION);
 	}
 }

@@ -5,8 +5,8 @@ import android.graphics.Color;
 
 import com.aros.abstractclasses.AbstractImageButton;
 import com.aros.customerclient.Functions;
+import com.aros.customerclient.ItemInfo;
 import com.aros.customerclient.R;
-import com.aros.pages.ItemInfo;
 
 public class SpecialsButton extends AbstractImageButton {
 	private static int MARGINS = 1;

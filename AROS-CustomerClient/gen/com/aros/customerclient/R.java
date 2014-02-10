@@ -8,6 +8,10 @@
 package com.aros.customerclient;
 
 public final class R {
+    public static final class anim {
+        public static final int slide_left_to_right=0x7f030000;
+        public static final int slide_right_to_left=0x7f030001;
+    }
     public static final class attr {
     }
     public static final class color {
@@ -56,9 +60,6 @@ public final class R {
     }
     public static final class id {
         public static final int action_settings=0x7f090000;
-    }
-    public static final class layout {
-        public static final int temp=0x7f030000;
     }
     public static final class menu {
         public static final int main=0x7f080000;

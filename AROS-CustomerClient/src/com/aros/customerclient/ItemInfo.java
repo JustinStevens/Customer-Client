@@ -1,4 +1,4 @@
-package com.aros.pages;
+package com.aros.customerclient;
 
 public class ItemInfo {
 	
