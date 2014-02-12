@@ -8,8 +8,9 @@ import android.widget.RelativeLayout;
 
 import com.aros.abstractclasses.AbstractPage;
 import com.aros.buttons.ItemButton;
-import com.aros.customerclient.ItemInfo;
-import com.aros.customerclient.MainActivity;
+import com.aros.data.Ids;
+import com.aros.data.ItemData;
+import com.aros.main.MainActivity;
 
 public class ItemPage extends AbstractPage {
 	
@@ -21,17 +22,12 @@ public class ItemPage extends AbstractPage {
 	private LinearLayout leftColumn;
 	private LinearLayout rightColumn;
 	
-	public ItemButton item_1;
-	public ItemButton item_2;
-	public ItemButton item_3;
-	public ItemButton item_4;
-	public ItemButton item_5;
-	public ItemButton item_6;
+	public ItemButton[] items;
 
 	int width;
 	int height;
 	
-	public ItemPage (MainActivity a, int id, int width, int height, ItemInfo[] iInfo)
+	public ItemPage (MainActivity a, int id, int width, int height, ItemData[] iData, int startNum)
 	{
 		super(a, id, width, height);
 		this.width = width;
@@ -53,32 +49,34 @@ public class ItemPage extends AbstractPage {
 		this.rightColumn.setOrientation(LinearLayout.VERTICAL);
 		this.rightColumn.setLayoutParams(params);
 		
-		this.item_1 = new ItemButton(a, itemWidth, itemHeight, 1, iInfo[0]);
-		this.item_2 = new ItemButton(a, itemWidth, itemHeight, 2, iInfo[1]);
-		this.item_3 = new ItemButton(a, itemWidth, itemHeight, 3, iInfo[2]);
-		this.item_4 = new ItemButton(a, itemWidth, itemHeight, 4, iInfo[3]);
-		this.item_5 = new ItemButton(a, itemWidth, itemHeight, 5, iInfo[4]);
-		this.item_6 = new ItemButton(a, itemWidth, itemHeight, 6, iInfo[5]);
+		this.items = new ItemButton[6];
 		
-		this.leftColumn.addView(this.item_1.Get());
-		this.leftColumn.addView(this.item_2.Get());
-		this.leftColumn.addView(this.item_3.Get());
-		this.rightColumn.addView(this.item_4.Get());
-		this.rightColumn.addView(this.item_5.Get());
-		this.rightColumn.addView(this.item_6.Get());
-		
+		for(int i = 0; i < 6; i++)
+		{
+			if(!(startNum + i >= iData.length) && iData[startNum + i] != null)
+			{
+				items[i] = new ItemButton(a, itemWidth, itemHeight, Ids.BTN_ITEM_START + iData[startNum + i].id, iData[startNum + i]);
+				
+				if(i % 2 == 0)
+					this.leftColumn.addView(this.items[i].Get());
+				else
+					this.rightColumn.addView(this.items[i].Get());
+			}
+			else
+				items[i] = null;
+		}
+
 		this.pLayout.addView(this.leftColumn);
 		this.pLayout.addView(this.rightColumn);
 	}
 	
 	public void SetClickable(boolean clickable)
 	{
-		this.item_1.SetClickable(clickable);
-		this.item_2.SetClickable(clickable);
-		this.item_3.SetClickable(clickable);
-		this.item_4.SetClickable(clickable);
-		this.item_5.SetClickable(clickable);
-		this.item_6.SetClickable(clickable);
+		for(int i = 0; i < 6; i++)
+		{
+			if(items[i] != null)
+				this.items[i].SetClickable(clickable);
+		}
 	}
 	
 	public void PlayAnimation(int startX, int endX)

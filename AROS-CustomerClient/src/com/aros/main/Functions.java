@@ -1,4 +1,4 @@
-package com.aros.customerclient;
+package com.aros.main;
 
 import java.lang.reflect.Field;
 

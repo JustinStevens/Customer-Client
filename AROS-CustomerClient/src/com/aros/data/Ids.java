@@ -1,4 +1,4 @@
-package com.aros.customerclient;
+package com.aros.data;
 
 public class Ids {
 	public final static int MENU_MAIN_ID = 10;
@@ -20,4 +20,6 @@ public class Ids {
 	public final static int BTN_MENU_HOME = 1203;
 	
 	public final static int BTN_MENU_LIST_START = 1300;
+	
+	public final static int BTN_ITEM_START = 2000;
 }

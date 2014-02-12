@@ -1,6 +1,5 @@
 package com.aros.abstractclasses;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
@@ -12,8 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
-import com.aros.customerclient.ItemInfo;
-import com.aros.customerclient.MainActivity;
+import com.aros.main.MainActivity;
 
 public abstract class AbstractImageButton {
 	
@@ -34,20 +32,20 @@ public abstract class AbstractImageButton {
 	
 	protected MainActivity a;
 	
-	protected AbstractImageButton(MainActivity a, int id, int width, int height, int margins, ItemInfo iInfo)
+	protected AbstractImageButton(MainActivity a, int id, int width, int height, int margins, int imgResId, String btm_text, String top_text)
 	{
-		init(a, id, width, height, margins, iInfo);
+		init(a, id, width, height, margins, imgResId, btm_text, top_text);
 	}
 	
-	protected AbstractImageButton(MainActivity a, int id, int width, int height, int margins, int x, int y, ItemInfo iInfo)
+	protected AbstractImageButton(MainActivity a, int id, int width, int height, int margins, int x, int y, int imgResId, String btm_text, String top_text)
 	{
-		init(a, id, width, height, margins, iInfo);
+		init(a, id, width, height, margins, imgResId, btm_text, top_text);
 		container.setX(x);
 		container.setY(y);
 	}
 	
 	@SuppressWarnings("deprecation")
-	private void init(MainActivity a, int id, int width, int height, int margins, ItemInfo iInfo)
+	private void init(MainActivity a, int id, int width, int height, int margins, int imgResId, String btm_text, String top_text)
 	{
 		width = width - (margins * 2);
 		height = height - (margins * 2);
@@ -103,8 +101,8 @@ public abstract class AbstractImageButton {
 		this.img.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		this.img.setLayoutParams(params);
 		
-		setText(height, iInfo);
-		setImage(iInfo.imgResId);
+		setText(height, btm_text, top_text);
+		setImage(imgResId);
 		
 		this.container.addView(img);
 		this.container.addView(lbl_top);
@@ -120,7 +118,7 @@ public abstract class AbstractImageButton {
 	
 	protected abstract void setImage(int resId);
 	protected abstract void setGradients(int width, int height);
-	protected abstract void setText(int height, ItemInfo iInfo);
+	protected abstract void setText(int height, String top_text, String btm_text);
 	protected abstract void setOnClick();
 	protected abstract void OnClick(View v);
 	

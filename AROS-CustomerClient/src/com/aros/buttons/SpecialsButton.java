@@ -4,21 +4,22 @@ import android.graphics.Color;
 import android.view.View;
 
 import com.aros.abstractclasses.AbstractImageButton;
-import com.aros.customerclient.Functions;
-import com.aros.customerclient.ItemInfo;
-import com.aros.customerclient.MainActivity;
+import com.aros.data.ItemData;
+import com.aros.data.SpecialsData;
+import com.aros.main.Functions;
+import com.aros.main.MainActivity;
 
 public class SpecialsButton extends AbstractImageButton {
 	private static int MARGINS = 1;
 	
-	public SpecialsButton(MainActivity a, int width, int height, int id, ItemInfo iInfo)
+	public SpecialsButton(MainActivity a, int width, int height, int id, SpecialsData sData)
 	{
-		super(a, id, width, height, MARGINS, iInfo);
+		super(a, id, width, height, MARGINS, sData.imgResId, sData.title, sData.desc);
 	}
 	
-	public SpecialsButton(MainActivity a, int width, int height, int id, int x, int y, ItemInfo iInfo)
+	public SpecialsButton(MainActivity a, int width, int height, int id, int x, int y, SpecialsData sData)
 	{
-		super(a, id, width, height, MARGINS, x, y, iInfo);
+		super(a, id, width, height, MARGINS, x, y, sData.imgResId, sData.title, sData.desc);
 	}
 
 	@Override
@@ -50,11 +51,11 @@ public class SpecialsButton extends AbstractImageButton {
 	}
 
 	@Override
-	protected void setText(int height, ItemInfo iInfo) {
-		lbl_top.setText(iInfo.name);
+	protected void setText(int height, String top_text, String btm_text) {
+		lbl_top.setText(top_text);
 		lbl_top.setTextSize(height / 16);
 		
-		lbl_btm.setText(iInfo.desc);
+		lbl_btm.setText(btm_text);
 		lbl_btm.setTextSize(height / 18);
 	}
 

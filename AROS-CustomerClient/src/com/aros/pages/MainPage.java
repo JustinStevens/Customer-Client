@@ -8,9 +8,9 @@ import android.widget.Button;
 
 import com.aros.abstractclasses.AbstractPage;
 import com.aros.buttons.SpecialsButton;
-import com.aros.customerclient.Ids;
-import com.aros.customerclient.ItemInfo;
-import com.aros.customerclient.MainActivity;
+import com.aros.data.Ids;
+import com.aros.data.SpecialsData;
+import com.aros.main.MainActivity;
 
 public class MainPage extends AbstractPage {
 
@@ -24,7 +24,7 @@ public class MainPage extends AbstractPage {
 	private int menuButton_height;
 
 	
-	public MainPage (MainActivity a, int id, int pWidth, int pHeight, ItemInfo[] iInfo)
+	public MainPage (MainActivity a, int id, int pWidth, int pHeight, SpecialsData[] sData)
 	{			
 		super(a, id, pWidth, pHeight);
 		
@@ -46,10 +46,10 @@ public class MainPage extends AbstractPage {
 		SetButton(a, "Call Waiter", Ids.BTN_CALL_ID, btnX, btnY + btnYAdjust * 3, this.menuButton_width, this.menuButton_height);
 		SetButton(a, "Checkout", Ids.BTN_CHECKOUT_ID, btnX, btnY + btnYAdjust * 4, this.menuButton_width, this.menuButton_height);
 		
-		special_btn_1 = new SpecialsButton(a, adSize, adSize, Ids.BTN_SPECIAL_1_ID, pWidth - adSize * 2, 0, iInfo[0]);
-		special_btn_2 = new SpecialsButton(a, adSize, adSize, Ids.BTN_SPECIAL_2_ID, pWidth - adSize, 0, iInfo[1]);
-		special_btn_3 = new SpecialsButton(a, adSize, adSize, Ids.BTN_SPECIAL_3_ID, pWidth - adSize * 2, adSize, iInfo[2]);
-		special_btn_4 = new SpecialsButton(a, adSize, adSize, Ids.BTN_SPECIAL_4_ID, pWidth - adSize, adSize, iInfo[3]);
+		special_btn_1 = new SpecialsButton(a, adSize, adSize, Ids.BTN_SPECIAL_1_ID, pWidth - adSize * 2, 0, sData[0]);
+		special_btn_2 = new SpecialsButton(a, adSize, adSize, Ids.BTN_SPECIAL_2_ID, pWidth - adSize, 0, sData[1]);
+		special_btn_3 = new SpecialsButton(a, adSize, adSize, Ids.BTN_SPECIAL_3_ID, pWidth - adSize * 2, adSize, sData[2]);
+		special_btn_4 = new SpecialsButton(a, adSize, adSize, Ids.BTN_SPECIAL_4_ID, pWidth - adSize, adSize, sData[3]);
 		
 		this.pLayout.addView(special_btn_1.Get());
 		this.pLayout.addView(special_btn_2.Get());

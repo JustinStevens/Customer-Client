@@ -2,21 +2,17 @@ package com.aros.pages;
 
 import android.app.Activity;
 import android.graphics.drawable.StateListDrawable;
-import android.os.IBinder;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout;
 
 import com.aros.abstractclasses.AbstractPage;
-import com.aros.customerclient.Ids;
-import com.aros.customerclient.ItemInfo;
-import com.aros.customerclient.MainActivity;
-import com.aros.customerclient.R;
+import com.aros.data.Ids;
+import com.aros.data.ItemData;
+import com.aros.main.MainActivity;
 
 public class MenuPage extends AbstractPage {
 	
@@ -35,7 +31,7 @@ public class MenuPage extends AbstractPage {
 	private Button btn_prev;
 	private Button btn_home;
 	
-	public MenuPage (MainActivity a, int id, int width, int height, ItemInfo[][] iInfo)
+	public MenuPage (MainActivity a, int id, int width, int height, ItemData[] iData)
 	{
 		super(a, id, width, height);
 
@@ -50,17 +46,15 @@ public class MenuPage extends AbstractPage {
 		this.touchLayout = new RelativeLayout(a);
 		this.touchLayout.setLayoutParams(new LayoutParams(content_width, content_height));
 		
-		itemPages = new ItemPage[iInfo.length];
+		itemPages = new ItemPage[(iData.length + 5) / 6];
 		
-		itemPages[0] = new ItemPage(a, 0, content_width, content_height, iInfo[0]);
-		itemPages[1] = new ItemPage(a, 1, content_width, content_height, iInfo[1]);
-		
-		pLayout.addView(itemPages[0].Get());
-		pLayout.addView(itemPages[1].Get());
-		
-		itemPages[0].setVisible(false);
-		itemPages[1].setVisible(false);
-		
+		for(int i = 0; i < (iData.length + 5) / 6; i++)
+		{
+			itemPages[i] = new ItemPage(a, 0, content_width, content_height, iData, i * 6);
+			pLayout.addView(itemPages[i].Get());
+			itemPages[i].setVisible(false);
+		}
+
 		btn_prev = SetButton(a, "Previous", Ids.BTN_MENU_PREV, 0, this.content_height, (int)(this.bar_height * 2.5), this.bar_height);
 		btn_next = SetButton(a, "Next", Ids.BTN_MENU_NEXT, (this.content_width - (int)(this.bar_height * 2.5)), this.content_height, (int)(this.bar_height * 2.5), this.bar_height);
 		btn_home = SetButton(a, "Home", Ids.BTN_MENU_HOME, (this.content_width / 2 - (int)(this.bar_height * 2.5 / 2)), this.content_height, (int)(this.bar_height * 2.5), this.bar_height);
@@ -100,39 +94,57 @@ public class MenuPage extends AbstractPage {
 		        	if(moving)
 		        		itemPages[curr_page].SetClickable(true);
 	                
-		        	CheckMove(speed);
+		        	if(!block_movement)
+		        		CheckMove(speed);
 		        	
 		        	moving = false;
+		        	block_movement = false;
 		        	break;
 		        	
 		        case MotionEvent.ACTION_MOVE:
-		        		                
-		        	curr_moveX = prevX - X;
-		        	total_movedX += curr_moveX;
-
-		        	if(moving || total_movedX > 10 || total_movedX < -10)
-		        	{
-		        		if(moving || total_movedX > 25 || total_movedX < -25)
-		        		{
-		        			moving = true;
-		        			itemPages[curr_page].SetClickable(false);
-		        		}
-		        		
-			        	if(curr_page == 0 && total_movedX < 0)
+		        	if(!block_movement)
+		        	{       
+			        	curr_moveX = prevX - X;
+			        	total_movedX += curr_moveX;
+	
+			        	if(moving || total_movedX > 10 || total_movedX < -10)
 			        	{
-			        		if(total_movedX < -(content_width / 20))
-			        			total_movedX = -(content_width / 20);
-			        		downX = X;
+			        		if(moving || total_movedX > 25 || total_movedX < -25)
+			        		{
+			        			moving = true;
+			        			itemPages[curr_page].SetClickable(false);
+			        		}
+			        		
+				        	if(curr_page == 0 && total_movedX < 0)
+				        	{
+				        		if(total_movedX < -(content_width / 20))
+				        			total_movedX = -(content_width / 20);
+				        		downX = X;
+				        	}
+				        	else if(curr_page == itemPages.length - 1 && total_movedX > 0)
+				        	{
+				        		if(total_movedX > content_width / 20)
+				        			total_movedX = content_width / 20;
+				        		downX = X;
+				        	}
+				        	
+				        	if(total_movedX > content_width / 3 || total_movedX < -(content_width / 3))
+				        	{
+				        		CheckMove(0);
+				        		block_movement = true;
+				        		time_down = 0;
+				        		time_up = 0;
+				        		downX = 0;
+				        		downY = 0;
+				        		prevX = 0;
+				        		total_movedX = 0;
+				        		total_movedY = 0;
+				        		curr_moveX = 0;
+				        		curr_moveY = 0;
+				        	}
+				        	else
+				        		Move(total_movedX);
 			        	}
-			        	else if(curr_page == itemPages.length - 1 && total_movedX > 0)
-			        	{
-			        		if(total_movedX > content_width / 20)
-			        			total_movedX = content_width / 20;
-			        		downX = X;
-			        	}
-			        	
-			        	
-			        	Move(total_movedX);
 		        	}
 		        	
 		        	itemPages[curr_page].Get().dispatchTouchEvent(event);
@@ -157,6 +169,7 @@ public class MenuPage extends AbstractPage {
 	int curr_moveY = 0;
 	
 	boolean moving = false;
+	boolean block_movement = false;
 	
 	public void Move(int x)
 	{

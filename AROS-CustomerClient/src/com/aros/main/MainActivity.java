@@ -1,13 +1,17 @@
-package com.aros.customerclient;
+package com.aros.main;
+
+import java.io.IOException;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.aros.abstractclasses.AbstractPage;
+import com.aros.data.Ids;
+import com.aros.data.ItemData;
+import com.aros.data.SpecialsData;
 import com.aros.pages.ItemPage;
 import com.aros.pages.MainPage;
 import com.aros.pages.MenuListPage;
@@ -24,6 +28,8 @@ public class MainActivity extends Activity {
 	
 	int height;
 	int width;
+	
+	private DatabaseHelper dbHelper;
 	
 	private String packageName;
 	
@@ -46,15 +52,38 @@ public class MainActivity extends Activity {
 	// For loading and preparing the application
 	public void Load()
 	{
+		a = this;
 		Functions.Setup(this);
 		this.width = Functions.display.x;
 		this.height = Functions.display.y;
 		
 		packageName = getApplicationContext().getPackageName();
 		
-		ItemInfo[][] iInfo = new ItemInfo[2][6];
-		iInfo[0][0] = new ItemInfo(getResources().getIdentifier("drawable/food1", null, packageName), "Leftover Fruit", 10.99f);
-		iInfo[0][1] = new ItemInfo(getResources().getIdentifier("drawable/food2", null, packageName), "Pizza off the Floor", 12.99f);
+		dbHelper = new DatabaseHelper(this);	
+		
+		try { 
+        	dbHelper.createDatabase(); 
+        } catch (IOException ioe) {}
+		
+		try {
+			 
+			dbHelper.openDataBase();
+	 
+	 	}catch(Exception e){//SQLException sqle){
+	 
+	 		//throw sqle;
+	 
+	 	}
+		
+		ItemData[] test = dbHelper.getItemData(this, packageName);
+		for(int i = 0; i < test.length; i++)
+		{
+			//if(test[i] != null)
+			displayMessage("" + i);
+		}
+		//ItemData[] iInfo = new ItemData[1];
+		//iInfo[0] = test[0][0];//new ItemInfo(getResources().getIdentifier("drawable/food1", null, packageName), "Leftover Fruit", 10.99f);
+		/*iInfo[0][1] = new ItemInfo(getResources().getIdentifier("drawable/food2", null, packageName), "Pizza off the Floor", 12.99f);
 		iInfo[0][2] = new ItemInfo(getResources().getIdentifier("drawable/food3", null, packageName), "Soggy Hamburger", 4.49f);
 		iInfo[0][3] = new ItemInfo(getResources().getIdentifier("drawable/food4", null, packageName), "Undercooked Pancakes", 11.49f);
 		iInfo[0][4] = new ItemInfo(getResources().getIdentifier("drawable/food5", null, packageName), "Overripe Fruit", 11.99f);
@@ -66,17 +95,24 @@ public class MainActivity extends Activity {
 		iInfo[1][3] = new ItemInfo(getResources().getIdentifier("drawable/food1", null, packageName), "Undercooked Pancakes", 11.49f);
 		iInfo[1][4] = new ItemInfo(getResources().getIdentifier("drawable/food1", null, packageName), "Overripe Fruit", 11.99f);
 		iInfo[1][5] = new ItemInfo(getResources().getIdentifier("drawable/food1", null, packageName), "Stale Sushi", 12.49f);
+		*/
+		/*ItemData[] iInfo2 = new ItemData[4];
+		iInfo2[0] = new ItemData(getResources().getIdentifier("drawable/special1", null, packageName), "Cheescake", "1% Off until February 31st!");
+		iInfo2[1] = new ItemData(getResources().getIdentifier("drawable/special2", null, packageName), "Birthday Cake", "2% Off until tomorrow!");
+		iInfo2[2] = new ItemData(getResources().getIdentifier("drawable/special3", null, packageName), "Wine", "Now Available!");
+		iInfo2[3] = new ItemData(getResources().getIdentifier("drawable/special4", null, packageName), "Icecream", "Now with strawberries! Get them before we run out!");
+		*/
 		
-		ItemInfo[] iInfo2 = new ItemInfo[4];
-		iInfo2[0] = new ItemInfo(getResources().getIdentifier("drawable/special1", null, packageName), "Cheescake", "1% Off until February 31st!");
-		iInfo2[1] = new ItemInfo(getResources().getIdentifier("drawable/special2", null, packageName), "Birthday Cake", "2% Off until tomorrow!");
-		iInfo2[2] = new ItemInfo(getResources().getIdentifier("drawable/special3", null, packageName), "Wine", "Now Available!");
-		iInfo2[3] = new ItemInfo(getResources().getIdentifier("drawable/special4", null, packageName), "Icecream", "Now with strawberries! Get them before we run out!");
+		SpecialsData[] sdata = new SpecialsData[4];
+		sdata[0] = new SpecialsData(0, getResources().getIdentifier("drawable/special1", null, packageName), "Cheescake", "1% Off until February 31st!");
+		sdata[1] = new SpecialsData(1, getResources().getIdentifier("drawable/special2", null, packageName), "Birthday Cake", "2% Off until tomorrow!");
+		sdata[2] = new SpecialsData(2, getResources().getIdentifier("drawable/special3", null, packageName), "Wine", "Now Available!");
+		sdata[3] = new SpecialsData(3, getResources().getIdentifier("drawable/special4", null, packageName), "Icecream", "Now with strawberries! Get them before we run out!");
 		
 		String[] menuNames = new String[]{"Breakfast", "Lunch", "Dinner", "Appetizers", "Desert", "Beverages", "Bar"};
 		
-		mainPage = new MainPage(this, 0, width, height, iInfo2);
-		menuPage = new MenuPage(this, 1, width, height, iInfo);
+		mainPage = new MainPage(this, 0, width, height, sdata);
+		menuPage = new MenuPage(this, 1, width, height, test);
 		menuListPage = new MenuListPage(this, 2, width, height, menuNames);
 	}
 	
@@ -97,7 +133,7 @@ public class MainActivity extends Activity {
 		case Ids.BTN_MENU_HOME:
 	    	ChangePage(mainPage);
 			break;
-		default: NotImplemented();
+		default: displayMessage("This feature is not yet implemented.");
 		}
 	}
 	
@@ -114,9 +150,11 @@ public class MainActivity extends Activity {
     	currentPage.PlayAnimation(ItemPage.PLAY_APPEAR_ANIMATION);
 	}
 	
-	private void NotImplemented()
+	public static void displayMessage(String text)
 	{
-		Toast toast = Toast.makeText(this, "This feature is not yet implemented.", 1000);
+		Toast toast = Toast.makeText(a, text, Toast.LENGTH_LONG);
 		toast.show();
 	}
+	
+	public static Activity a;
 }

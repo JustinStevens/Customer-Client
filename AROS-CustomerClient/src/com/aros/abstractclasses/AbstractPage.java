@@ -10,8 +10,8 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.RelativeLayout;
 
-import com.aros.customerclient.Functions;
-import com.aros.customerclient.MainActivity;
+import com.aros.main.Functions;
+import com.aros.main.MainActivity;
 
 public abstract class AbstractPage {
 	
