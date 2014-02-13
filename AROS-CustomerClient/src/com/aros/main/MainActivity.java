@@ -11,20 +11,26 @@ import android.widget.Toast;
 import com.aros.abstractclasses.AbstractPage;
 import com.aros.data.Ids;
 import com.aros.data.ItemData;
+import com.aros.data.MenuData;
 import com.aros.data.SpecialsData;
+import com.aros.data.SubMenuData;
 import com.aros.pages.ItemPage;
 import com.aros.pages.MainPage;
 import com.aros.pages.MenuListPage;
 import com.aros.pages.MenuPage;
+import com.aros.pages.SubMenuListPage;
 
 public class MainActivity extends Activity {
 	
 	MainPage mainPage;
 	MenuPage menuPage;
 	MenuListPage menuListPage;
+	
 	RelativeLayout container;
 	AbstractPage currentPage;
 	AbstractPage previousPage;
+	
+	private SubMenuListPage[] sMenuListPage;
 	
 	int height;
 	int width;
@@ -43,6 +49,10 @@ public class MainActivity extends Activity {
 		container.addView(mainPage.Get());
 		container.addView(menuPage.Get());
 		container.addView(menuListPage.Get());
+		
+		for(int i = 0; i < sMenuListPage.length; i++)
+			container.addView(sMenuListPage[i].Get());
+		
 		
 		currentPage = mainPage;
 		currentPage.PlayAnimation(ItemPage.PLAY_APPEAR_ANIMATION);
@@ -75,12 +85,12 @@ public class MainActivity extends Activity {
 	 
 	 	}
 		
-		ItemData[] test = dbHelper.getItemData(this, packageName);
-		for(int i = 0; i < test.length; i++)
-		{
-			//if(test[i] != null)
-			displayMessage("" + i);
-		}
+		MenuData[] menu = dbHelper.getMenuData();
+		SubMenuData[] subMenu = dbHelper.getSubMenuData();
+		ItemData[] items = dbHelper.getItemData(this, packageName);
+		
+		this.sMenuListPage = new SubMenuListPage[menu.length];
+
 		//ItemData[] iInfo = new ItemData[1];
 		//iInfo[0] = test[0][0];//new ItemInfo(getResources().getIdentifier("drawable/food1", null, packageName), "Leftover Fruit", 10.99f);
 		/*iInfo[0][1] = new ItemInfo(getResources().getIdentifier("drawable/food2", null, packageName), "Pizza off the Floor", 12.99f);
@@ -109,11 +119,12 @@ public class MainActivity extends Activity {
 		sdata[2] = new SpecialsData(2, getResources().getIdentifier("drawable/special3", null, packageName), "Wine", "Now Available!");
 		sdata[3] = new SpecialsData(3, getResources().getIdentifier("drawable/special4", null, packageName), "Icecream", "Now with strawberries! Get them before we run out!");
 		
-		String[] menuNames = new String[]{"Breakfast", "Lunch", "Dinner", "Appetizers", "Desert", "Beverages", "Bar"};
-		
 		mainPage = new MainPage(this, 0, width, height, sdata);
-		menuPage = new MenuPage(this, 1, width, height, test);
-		menuListPage = new MenuListPage(this, 2, width, height, menuNames);
+		menuPage = new MenuPage(this, 1, width, height, items);
+		menuListPage = new MenuListPage(this, 2, width, height, menu);
+		
+		for(int i = 0; i < menu.length; i++)
+			sMenuListPage[i] = new SubMenuListPage(this, 2, width, height, subMenu, menu[i].id);
 	}
 	
 	int prev = -1;
@@ -125,11 +136,14 @@ public class MainActivity extends Activity {
 		case Ids.BTN_MENU_ID:
 			ChangePage(menuListPage);
 			break;
-			
 		case (Ids.BTN_MENU_LIST_START + 0):
+			ChangePage(sMenuListPage[0]);
+			
+	    	break;
+		case (Ids.BTN_SUBMENU_LIST_START + 0):
 			ChangePage(menuPage);
 	    	((MenuPage)currentPage).ShowPage(0);
-	    	break;
+	    	break;	
 		case Ids.BTN_MENU_HOME:
 	    	ChangePage(mainPage);
 			break;

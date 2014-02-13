@@ -13,12 +13,12 @@ public class ItemButton extends AbstractImageButton {
 		
 	public ItemButton(MainActivity a, int width, int height, int id, ItemData iData)
 	{
-		super(a, id, width, height, MARGINS, iData.smallImgResId, iData.name, "$" + iData.price);
+		super(a, id, width, height, MARGINS, iData.smallImgResId, iData.name, "$" + iData.price / 100);
 	}
 	
 	public ItemButton(MainActivity a, int width, int height, int id, int x, int y, ItemData iData)
 	{
-		super(a, id, width, height, MARGINS, iData.smallImgResId, x, y, iData.name, "$" + iData.price);
+		super(a, id, width, height, MARGINS, iData.smallImgResId, x, y, iData.name, "$" + iData.price / 100);
 	}
 
 	@Override
@@ -52,10 +52,10 @@ public class ItemButton extends AbstractImageButton {
 	@Override
 	protected void setText(int height, String top_text, String btm_text) {
 		 lbl_top.setText(top_text);
-		 lbl_top.setTextSize(height / 10);
+		 lbl_top.setTextSize(height / 8);
 		 
 		 lbl_btm.setText(btm_text);
-		 lbl_btm.setTextSize(height / 10);
+		 lbl_btm.setTextSize(height / 8);
 	}
 
 	@Override

@@ -4,16 +4,16 @@ import android.content.Context;
 
 public class ItemData {
 	
-	public ItemData(int id, int subId, String imageName, String name, 
+	public ItemData(int id, int subId, String name, 
 			String shortDesc, String longDesc, int price, int refillPrice,
 			int startTime, int durration, Context context, String packageName)
 	{
 		this.id = id;
 		this.subId = subId;
 		
-		this.smallImgResId = context.getResources().getIdentifier("drawable/sml_" + imageName, null, packageName);
-		this.largeImgResId = context.getResources().getIdentifier("drawable/lrg_" + imageName, null, packageName);
-		this.nutritionImgResId = context.getResources().getIdentifier("drawable/nut_" + imageName, null, packageName);
+		this.smallImgResId = context.getResources().getIdentifier("drawable/sml_" + id, null, packageName);
+		this.largeImgResId = context.getResources().getIdentifier("drawable/lrg_" + id, null, packageName);
+		this.nutritionImgResId = context.getResources().getIdentifier("drawable/nut_" + id, null, packageName);
 		
 		this.name = name;
 		this.shortDesc = shortDesc;

@@ -20,6 +20,7 @@ public class Ids {
 	public final static int BTN_MENU_HOME = 1203;
 	
 	public final static int BTN_MENU_LIST_START = 1300;
+	public final static int BTN_SUBMENU_LIST_START = 1400;
 	
 	public final static int BTN_ITEM_START = 2000;
 }

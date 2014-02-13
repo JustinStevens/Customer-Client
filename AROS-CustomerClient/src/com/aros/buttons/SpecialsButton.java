@@ -53,10 +53,10 @@ public class SpecialsButton extends AbstractImageButton {
 	@Override
 	protected void setText(int height, String top_text, String btm_text) {
 		lbl_top.setText(top_text);
-		lbl_top.setTextSize(height / 16);
+		lbl_top.setTextSize(height / 15);
 		
 		lbl_btm.setText(btm_text);
-		lbl_btm.setTextSize(height / 18);
+		lbl_btm.setTextSize(height / 19);
 	}
 
 	@Override

@@ -5,14 +5,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import com.aros.data.ItemData;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.aros.data.ItemData;
+import com.aros.data.MenuData;
+import com.aros.data.SubMenuData;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
 	 
@@ -29,7 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     {
     	super(context, DB_NAME, null, 1);
         this.myContext = context;
-        //DB_PATH = this.myContext.getFilesDir().getPath() + "/";
+        //DB_PATH = this.myContext.getd.getFilesDir().getPath() + "/";
         //MainActivity.displayMessage(DB_PATH + DB_NAME);
     }	
  
@@ -127,7 +129,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 		ItemData[] itemInfo = null;
 		try
 		{
-			cursor = myDatabase.query("item", new String[]{"itemId", "name", "price"}, 
+			cursor = myDatabase.query("item", new String[] {
+					"itemId", "name", "price", "longDesc", "shortDesc", "refillPrice", "subId"}, 
 					null, 
 					null, null, null, null, null);
 			if (cursor != null) {
@@ -136,8 +139,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 				{
 				    if (cursor.moveToNext())
 				    {
-				    	itemInfo[i] = new ItemData(cursor.getInt(0), 0, "food1", cursor.getString(1), 
-				    			"", "", cursor.getInt(2), 0,
+				    	itemInfo[i] = new ItemData(cursor.getInt(0), cursor.getInt(6), cursor.getString(1), 
+				    			cursor.getString(4), cursor.getString(3), cursor.getInt(2), cursor.getInt(5),
 				    			0, 0, context, packageName);
 				    }
 				}
@@ -147,9 +150,52 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 		return itemInfo;
 	}
 	
-	public void getMenuData()
+	public MenuData[] getMenuData()
 	{
+		MenuData[] menuData = null;
+		try
+		{
+			cursor = myDatabase.query("category", new String[] {
+					"categoryId", "name", "startDate", "duration" }, 
+					null, 
+					null, null, null, null, null);
+			if (cursor != null) {
+				menuData = new MenuData[cursor.getCount()];
+				for(int i = 0; i < cursor.getCount(); i++)
+				{
+				    if (cursor.moveToNext())
+				    {
+				    	menuData[i] = new MenuData(cursor.getInt(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3));
+				    }
+				}
+			}
+		} 
+		catch (NumberFormatException e) {}
+		return menuData;
+	}
 	
+	public SubMenuData[] getSubMenuData()
+	{
+		SubMenuData[] menuData = null;
+		try
+		{
+			cursor = myDatabase.query("subCategory", new String[] {
+					"subId", "categoryId", "name", "startDate", "duration" }, 
+					null, 
+					null, null, null, null, null);
+			if (cursor != null) {
+				menuData = new SubMenuData[cursor.getCount()];
+				for(int i = 0; i < cursor.getCount(); i++)
+				{
+				    if (cursor.moveToNext())
+				    {
+				    	menuData[i] = new SubMenuData(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getInt(3), cursor.getInt(4));
+				    }
+				}
+			}
+		} 
+		catch (NumberFormatException e) {}
+		return menuData;
 	}
 	
 	/*public RawChunk getChunk(int chunkX, int chunkY)
