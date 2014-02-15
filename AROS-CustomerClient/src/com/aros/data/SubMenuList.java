@@ -1,8 +1,8 @@
 package com.aros.data;
 
-public class SubMenuData extends MenuData {
+public class SubMenuList extends MenuList {
 	
-	public SubMenuData(int id, int parentCateId, String name, long startDate, long duration)
+	public SubMenuList(int id, int parentCateId, String name, long startDate, long duration)
 	{
 		super(id, name, startDate, duration);
 		this.parentCateId = parentCateId;

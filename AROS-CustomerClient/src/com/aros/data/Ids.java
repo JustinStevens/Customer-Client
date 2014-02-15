@@ -9,18 +9,23 @@ public class Ids {
 	public final static int BTN_CALL_ID = 1003;
 	public final static int BTN_CHECKOUT_ID = 1004;
 	
-	public final static int BTN_SPECIAL_1_ID = 1100;
-	public final static int BTN_SPECIAL_2_ID = 1101;
-	public final static int BTN_SPECIAL_3_ID = 1102;
-	public final static int BTN_SPECIAL_4_ID = 1103;
+	public final static int BTN_SPECIAL_1_ID = 2000;
+	public final static int BTN_SPECIAL_2_ID = 2001;
+	public final static int BTN_SPECIAL_3_ID = 2002;
+	public final static int BTN_SPECIAL_4_ID = 2003;
 	
-	public final static int BTN_MENU_PREV = 1200;
-	public final static int BTN_MENU_NEXT = 1201;
-	public final static int BTN_MENU_RETURN = 1202;
-	public final static int BTN_MENU_HOME = 1203;
+	public final static int BTN_MENU_PREV = 3000;
+	public final static int BTN_MENU_NEXT = 3001;
+	public final static int BTN_MENU_RETURN = 3002;
+	public final static int BTN_MENU_HOME = 3003;
 	
-	public final static int BTN_MENU_LIST_START = 1300;
-	public final static int BTN_SUBMENU_LIST_START = 1400;
+	public final static int BTN_MENU_LIST_START = 4000;
+	public final static int BTN_MENU_LIST_MAX = 4999;
+	
+	public final static int BTN_SUBMENU_LIST_START = 5000;
+	public final static int BTN_SUBMENU_LIST_MAX = 5999;
+	
+	public final static int MENU_PAGE_START = 6000;
 	
 	public final static int BTN_ITEM_START = 2000;
 }

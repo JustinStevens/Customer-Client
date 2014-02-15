@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.view.View;
 
 import com.aros.abstractclasses.AbstractImageButton;
-import com.aros.data.ItemData;
 import com.aros.data.SpecialsData;
 import com.aros.main.Functions;
 import com.aros.main.MainActivity;

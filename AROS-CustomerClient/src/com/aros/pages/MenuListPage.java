@@ -8,8 +8,8 @@ import android.widget.Button;
 
 import com.aros.abstractclasses.AbstractPage;
 import com.aros.data.Ids;
-import com.aros.data.MenuData;
-import com.aros.data.SubMenuData;
+import com.aros.data.MenuList;
+import com.aros.data.SubMenuList;
 import com.aros.main.MainActivity;
 
 public class MenuListPage extends AbstractPage {
@@ -17,8 +17,8 @@ public class MenuListPage extends AbstractPage {
 	// Sizes for the main menu buttons
 	private int menuButton_width;
 	private int menuButton_height;
-	private MenuData[] menuData;
-	private SubMenuData[] subMenu;
+	private MenuList[] menuData;
+	private SubMenuList[] subMenu;
 	
 	int content_width;
 	int content_height;
@@ -27,7 +27,7 @@ public class MenuListPage extends AbstractPage {
 	
 	private Button btn_home;
 	
-	public MenuListPage (MainActivity a, int id, int pWidth, int pHeight, MenuData[] menuData)
+	public MenuListPage (MainActivity a, int id, int pWidth, int pHeight, MenuList[] menuData)
 	{			
 		super(a, id, pWidth, pHeight);
 

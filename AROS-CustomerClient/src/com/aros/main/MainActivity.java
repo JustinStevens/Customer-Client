@@ -12,8 +12,8 @@ import com.aros.abstractclasses.AbstractPage;
 import com.aros.data.Ids;
 import com.aros.data.ItemData;
 import com.aros.data.MenuData;
+import com.aros.data.MenuList;
 import com.aros.data.SpecialsData;
-import com.aros.data.SubMenuData;
 import com.aros.pages.ItemPage;
 import com.aros.pages.MainPage;
 import com.aros.pages.MenuListPage;
@@ -23,14 +23,14 @@ import com.aros.pages.SubMenuListPage;
 public class MainActivity extends Activity {
 	
 	MainPage mainPage;
-	MenuPage menuPage;
+	MenuPage[][] menuPage;
 	MenuListPage menuListPage;
 	
 	RelativeLayout container;
 	AbstractPage currentPage;
 	AbstractPage previousPage;
 	
-	private SubMenuListPage[] sMenuListPage;
+	MenuData mData[];
 	
 	int height;
 	int width;
@@ -47,11 +47,40 @@ public class MainActivity extends Activity {
 		setContentView(container);
 		
 		container.addView(mainPage.Get());
-		container.addView(menuPage.Get());
 		container.addView(menuListPage.Get());
 		
+		
+		try {
+			for(int i = 0; i < mData.length; i++)
+			{
+				if(mData[i].menuPages != null)
+				{
+					for(int j = 0; j < mData[i].menuPages.length; j++)
+					{
+						if(mData[i].menuPages[j] != null)
+						{
+							//for(int k = 0; k < mData[i].menuPages[j].length; k++)
+								container.addView(mData[i].menuPages[j].Get());
+						}
+					}
+				}
+					
+				
+				container.addView(mData[i].subMenuPage.Get());
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			displayMessage(e.toString());
+		}
+			
+		/***	
+		/*for(int i = 0; i < menuPage.length; i++)
+			for(int j = 0; j < menuPage.length; j++)
+				container.addView(menuPage[i][].Get());
+		
 		for(int i = 0; i < sMenuListPage.length; i++)
-			container.addView(sMenuListPage[i].Get());
+			for(int j = 0; j < menuPage.length; j++)
+				container.addView(sMenuListPage[i][].Get());*/
 		
 		
 		currentPage = mainPage;
@@ -76,7 +105,6 @@ public class MainActivity extends Activity {
         } catch (IOException ioe) {}
 		
 		try {
-			 
 			dbHelper.openDataBase();
 	 
 	 	}catch(Exception e){//SQLException sqle){
@@ -84,12 +112,31 @@ public class MainActivity extends Activity {
 	 		//throw sqle;
 	 
 	 	}
+				
+		MenuList[] menu = dbHelper.getMenuData();
 		
-		MenuData[] menu = dbHelper.getMenuData();
-		SubMenuData[] subMenu = dbHelper.getSubMenuData();
-		ItemData[] items = dbHelper.getItemData(this, packageName);
+		mData = new MenuData[menu.length];
 		
-		this.sMenuListPage = new SubMenuListPage[menu.length];
+		for(int i = 0; i < menu.length; i++)
+		{
+			mData[i] = new MenuData();
+			mData[i].subMenuList = dbHelper.getSubMenuData(menu[i].id);
+			
+			mData[i].itemData = new ItemData[mData[i].subMenuList.length][];
+			
+			
+			for(int j = 0; j < mData[i].subMenuList.length; j++)
+			{
+				
+				mData[i].itemData[j] = dbHelper.getItemData(this, packageName, mData[i].subMenuList[j].id);
+			}
+			
+			mData[i].Create(this, width, height);
+		}
+		//SubMenuData[][] subMenu = dbHelper.getSubMenuData(menu[i].id);
+		//ItemData[] items = dbHelper.getItemData(this, packageName);
+		
+		//this.sMenuListPage = new SubMenuListPage[menu.length];
 
 		//ItemData[] iInfo = new ItemData[1];
 		//iInfo[0] = test[0][0];//new ItemInfo(getResources().getIdentifier("drawable/food1", null, packageName), "Leftover Fruit", 10.99f);
@@ -120,11 +167,9 @@ public class MainActivity extends Activity {
 		sdata[3] = new SpecialsData(3, getResources().getIdentifier("drawable/special4", null, packageName), "Icecream", "Now with strawberries! Get them before we run out!");
 		
 		mainPage = new MainPage(this, 0, width, height, sdata);
-		menuPage = new MenuPage(this, 1, width, height, items);
+		//menuPage = new MenuPage[][];
+		//(this, 1, width, height, items);
 		menuListPage = new MenuListPage(this, 2, width, height, menu);
-		
-		for(int i = 0; i < menu.length; i++)
-			sMenuListPage[i] = new SubMenuListPage(this, 2, width, height, subMenu, menu[i].id);
 	}
 	
 	int prev = -1;
@@ -135,21 +180,32 @@ public class MainActivity extends Activity {
 		{
 		case Ids.BTN_MENU_ID:
 			ChangePage(menuListPage);
-			break;
-		case (Ids.BTN_MENU_LIST_START + 0):
-			ChangePage(sMenuListPage[0]);
+			return;
+		//case (Ids.BTN_MENU_LIST_START + 0):
+		//	ChangePage(sMenuListPage[0]);
 			
-	    	break;
-		case (Ids.BTN_SUBMENU_LIST_START + 0):
-			ChangePage(menuPage);
-	    	((MenuPage)currentPage).ShowPage(0);
-	    	break;	
+	    	//break;
 		case Ids.BTN_MENU_HOME:
 	    	ChangePage(mainPage);
-			break;
-		default: displayMessage("This feature is not yet implemented.");
+	    	return;
 		}
+		
+		if(v.getId() >= Ids.BTN_MENU_LIST_START && v.getId() <= Ids.BTN_MENU_LIST_MAX)
+		{
+			int subNum = v.getId() - Ids.BTN_MENU_LIST_START;
+			ChangePage(mData[subNum].subMenuPage);
+			cSubMenu = subNum;
+		}
+		else if(v.getId() >= Ids.BTN_SUBMENU_LIST_START && v.getId() <= Ids.BTN_SUBMENU_LIST_MAX)
+		{
+			int subNum = v.getId() - Ids.BTN_SUBMENU_LIST_START;
+			ChangePage(mData[cSubMenu].menuPages[subNum]);
+	    	((MenuPage)currentPage).ShowPage(0);
+		}
+		else
+			displayMessage("This feature is not yet implemented.");
 	}
+	int cSubMenu = 0;
 	
 	private void ChangePage(AbstractPage page)
 	{

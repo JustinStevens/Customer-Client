@@ -17,7 +17,7 @@ import com.aros.main.MainActivity;
 public class MenuPage extends AbstractPage {
 	
 	public ItemPage[] itemPages;
-
+	
 	private RelativeLayout touchLayout;
 	
 	int content_width;
@@ -26,6 +26,8 @@ public class MenuPage extends AbstractPage {
 	int bar_height;
 	int moveThreshold;
 	int curr_page;
+	
+	int count;
 	
 	private Button btn_next;
 	private Button btn_prev;
@@ -54,6 +56,8 @@ public class MenuPage extends AbstractPage {
 			pLayout.addView(itemPages[i].Get());
 			itemPages[i].setVisible(false);
 		}
+		
+		count = itemPages.length;
 
 		btn_prev = SetButton(a, "Previous", Ids.BTN_MENU_PREV, 0, this.content_height, (int)(this.bar_height * 2.5), this.bar_height);
 		btn_next = SetButton(a, "Next", Ids.BTN_MENU_NEXT, (this.content_width - (int)(this.bar_height * 2.5)), this.content_height, (int)(this.bar_height * 2.5), this.bar_height);
@@ -82,7 +86,8 @@ public class MenuPage extends AbstractPage {
 		        	curr_moveY = 0;
 		        	moving = false;
 		        	time_down = System.currentTimeMillis();
-		        	itemPages[curr_page].Get().dispatchTouchEvent(event);
+		        	if(curr_page < count)
+		        		itemPages[curr_page].Get().dispatchTouchEvent(event);
 		        	break;
 		        	
 		        case MotionEvent.ACTION_UP:
@@ -90,8 +95,9 @@ public class MenuPage extends AbstractPage {
 		        	float distance = (float) Math.sqrt((X-downX) * (X-downX) + (Y-downY) * (Y-downY));
 	                float speed = distance / (time_up - time_down);
 		        	
-	                itemPages[curr_page].Get().dispatchTouchEvent(event);
-		        	if(moving)
+	                if(curr_page < count)
+	                	itemPages[curr_page].Get().dispatchTouchEvent(event);
+		        	if(moving && curr_page < count)
 		        		itemPages[curr_page].SetClickable(true);
 	                
 		        	if(!block_movement)
@@ -112,7 +118,8 @@ public class MenuPage extends AbstractPage {
 			        		if(moving || total_movedX > 25 || total_movedX < -25)
 			        		{
 			        			moving = true;
-			        			itemPages[curr_page].SetClickable(false);
+			        			if(curr_page < count)
+			        				itemPages[curr_page].SetClickable(false);
 			        		}
 			        		
 				        	if(curr_page == 0 && total_movedX < 0)
@@ -146,8 +153,8 @@ public class MenuPage extends AbstractPage {
 				        		Move(total_movedX);
 			        	}
 		        	}
-		        	
-		        	itemPages[curr_page].Get().dispatchTouchEvent(event);
+		        	if(curr_page < count)
+		        		itemPages[curr_page].Get().dispatchTouchEvent(event);
 		            break;
 		    	}
 		    	
@@ -173,22 +180,27 @@ public class MenuPage extends AbstractPage {
 	
 	public void Move(int x)
 	{
-		itemPages[curr_page].Get().setX(-x);
+		if(curr_page < count)
+			itemPages[curr_page].Get().setX(-x);
 	}
 	
 	public void CheckMove(float speed)
 	{
-		if(total_movedX > this.moveThreshold || (speed > 1.5 && total_movedX > 0))
-			GoToNextPage();
-		else if (-total_movedX > this.moveThreshold || (speed > 1.5 && total_movedX < 0))
-			GoToPrevPage();
-		else
-			GoToSamePage();
+		if(curr_page < count)
+		{
+			if(total_movedX > this.moveThreshold || (speed > 1.5 && total_movedX > 0))
+				GoToNextPage();
+			else if (-total_movedX > this.moveThreshold || (speed > 1.5 && total_movedX < 0))
+				GoToPrevPage();
+			else
+				GoToSamePage();
+		}
 	}
 	
 	public void ShowPage(int id)
 	{
-		itemPages[id].setVisible(true);
+		if(id >= 0 && curr_page < count)
+			itemPages[id].setVisible(true);
 	}
 	
 	public void HidePage(int id)

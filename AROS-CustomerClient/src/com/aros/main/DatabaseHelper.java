@@ -13,8 +13,8 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.aros.data.ItemData;
-import com.aros.data.MenuData;
-import com.aros.data.SubMenuData;
+import com.aros.data.MenuList;
+import com.aros.data.SubMenuList;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
 	 
@@ -124,14 +124,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	
 	Cursor cursor;
 	
-	public ItemData[] getItemData(Context context, String packageName)
+	public ItemData[] getItemData(Context context, String packageName, int subId)
 	{
 		ItemData[] itemInfo = null;
 		try
 		{
 			cursor = myDatabase.query("item", new String[] {
 					"itemId", "name", "price", "longDesc", "shortDesc", "refillPrice", "subId"}, 
-					null, 
+					"subId = '" + subId + "'",  
 					null, null, null, null, null);
 			if (cursor != null) {
 				itemInfo = new ItemData[cursor.getCount()];
@@ -150,9 +150,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 		return itemInfo;
 	}
 	
-	public MenuData[] getMenuData()
+	public MenuList[] getMenuData()
 	{
-		MenuData[] menuData = null;
+		MenuList[] menuData = null;
 		try
 		{
 			cursor = myDatabase.query("category", new String[] {
@@ -160,12 +160,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 					null, 
 					null, null, null, null, null);
 			if (cursor != null) {
-				menuData = new MenuData[cursor.getCount()];
+				menuData = new MenuList[cursor.getCount()];
 				for(int i = 0; i < cursor.getCount(); i++)
 				{
 				    if (cursor.moveToNext())
 				    {
-				    	menuData[i] = new MenuData(cursor.getInt(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3));
+				    	menuData[i] = new MenuList(cursor.getInt(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3));
 				    }
 				}
 			}
@@ -174,22 +174,22 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 		return menuData;
 	}
 	
-	public SubMenuData[] getSubMenuData()
+	public SubMenuList[] getSubMenuData(int menuId)
 	{
-		SubMenuData[] menuData = null;
+		SubMenuList[] menuData = null;
 		try
 		{
 			cursor = myDatabase.query("subCategory", new String[] {
 					"subId", "categoryId", "name", "startDate", "duration" }, 
-					null, 
+					"categoryId = '" + menuId + "'", 
 					null, null, null, null, null);
 			if (cursor != null) {
-				menuData = new SubMenuData[cursor.getCount()];
+				menuData = new SubMenuList[cursor.getCount()];
 				for(int i = 0; i < cursor.getCount(); i++)
 				{
 				    if (cursor.moveToNext())
 				    {
-				    	menuData[i] = new SubMenuData(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getInt(3), cursor.getInt(4));
+				    	menuData[i] = new SubMenuList(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getInt(3), cursor.getInt(4));
 				    }
 				}
 			}
