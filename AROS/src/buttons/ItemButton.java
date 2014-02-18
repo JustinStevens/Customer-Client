@@ -1,7 +1,6 @@
 package buttons;
 
 import main.MainActivity;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.view.View;
 import data.ItemData;
@@ -67,7 +66,12 @@ public class ItemButton extends ImageButton {
 
 	@Override
 	protected void setOnClick() {
-
+		
+	}
+	
+	public void setId(int id)
+	{
+		btn.setId(id);
 	}
 	
 	public void SetClickable(boolean clickable)

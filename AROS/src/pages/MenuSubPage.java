@@ -10,7 +10,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import buttons.ItemButton;
 import data.Data;
 import data.ItemData;
@@ -34,7 +33,7 @@ public class MenuSubPage extends Page{
 	int width;
 	int height;
 	
-	private static final float FADE_AMOUNT = 0.40f;
+	private static final float FADE_AMOUNT = 0.35f;
 	
 	Animation fadeOut;
 	Animation fadeIn;
@@ -100,6 +99,7 @@ public class MenuSubPage extends Page{
 					this.items[i].setData(iData.get(i + startPos));
 					this.items[i].Get().setAlpha(1);
 					this.items[i].SetClickable(true);
+					this.items[i].setId(iData.get(i + startPos).id + Data.BTN_ITEM_START);
 				}
 				else
 				{

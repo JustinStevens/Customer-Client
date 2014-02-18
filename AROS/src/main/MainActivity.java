@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pages.CategoryPage;
+import pages.ItemPage;
 import pages.MainPage;
 import pages.MenuPage;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.View;
@@ -29,7 +29,7 @@ public class MainActivity extends Activity {
 	private static final int CATEGORY_PAGE = 2;
 	private static final int SUBCATEGORY_PAGE = 3;
 	private static final int MENU_PAGE = 4;
-	//private static final int ITEM_PAGE = 5;
+	private static final int ITEM_PAGE = 5;
 	
 	private Map<Integer, Page> pages;
 	private int cPage_index = -1;
@@ -78,6 +78,7 @@ public class MainActivity extends Activity {
 		pages.put(CATEGORY_PAGE, new CategoryPage(this, CATEGORY_PAGE, display.x, display.y));
 		pages.put(SUBCATEGORY_PAGE, new CategoryPage(this, SUBCATEGORY_PAGE, display.x, display.y));
 		pages.put(MENU_PAGE, new MenuPage(this, MENU_PAGE, display.x, display.y));
+		pages.put(ITEM_PAGE, new ItemPage(this, ITEM_PAGE, display.x, display.y));
 		
 		((CategoryPage)pages.get(CATEGORY_PAGE)).setCategoryData(mData.cData);
 		
@@ -85,6 +86,7 @@ public class MainActivity extends Activity {
 		container.addView(pages.get(CATEGORY_PAGE).get());
 		container.addView(pages.get(SUBCATEGORY_PAGE).get());
 		container.addView(pages.get(MENU_PAGE).get());
+		container.addView(pages.get(ITEM_PAGE).get());
 	}
 	
 	public static void displayMessage(String text)
@@ -125,7 +127,14 @@ public class MainActivity extends Activity {
 				setPage(MENU_PAGE); 
 				((MenuPage)pages.get(MENU_PAGE)).SetMenuData(mData.iData, cSubCategoryId);
 			}
-			
+			else if(v.getId() >= Data.BTN_ITEM_START && v.getId() <= Data.BTN_ITEM_MAX)
+			{
+				
+				//cSubCategoryId = v.getId() - Data.BTN_SUBMENU_LIST_START;
+				setPage(ITEM_PAGE); 
+				//((MenuPage)pages.get(MENU_PAGE)).SetMenuData(mData.iData, cSubCategoryId);
+			}
+			MainActivity.displayMessage("HERE" + v.getId() );
 		return;
 		}
 		
@@ -146,17 +155,25 @@ public class MainActivity extends Activity {
 		case MENU_PAGE:	
 			setPage(SUBCATEGORY_PAGE);	
 			((CategoryPage)pages.get(SUBCATEGORY_PAGE)).setCategoryData(mData.scData, cCategoryId);
-		break;
+			break;
+		case ITEM_PAGE:	
+			setPage(MENU_PAGE);	
+			break;
 		}
 	}
 
 	private void setPage(int index)
 	{
 		if(pages.containsKey(cPage_index))
+		{
 			pages.get(cPage_index).setVisible(false, true);
-		
+			pages.get(cPage_index).get().setClickable(false);
+		}
 		if(pages.containsKey(index))
+		{
 			pages.get(index).setVisible(true, true);
+			pages.get(index).get().setClickable(true);
+		}
 
 		cPage_index = index;
 	}

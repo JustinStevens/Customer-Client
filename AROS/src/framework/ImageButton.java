@@ -1,7 +1,6 @@
 package framework;
 
 import main.MainActivity;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;

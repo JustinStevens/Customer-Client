@@ -1,7 +1,6 @@
 package buttons;
 
 import main.MainActivity;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.view.View;
 import data.SpecialsData;

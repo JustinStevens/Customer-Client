@@ -10,9 +10,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import buttons.BarButtons;
@@ -208,7 +205,14 @@ public class MenuPage extends Page{
 		                }
 		        	}
 		        	
-		        	PassEvent(event);
+		        	if(Math.abs(cTotal_movedX) > 25)
+		        	{
+		        		SetClickable(false);
+		        		PassEvent(event);
+		        		SetClickable(true);
+		        	}
+		        	else
+		        		PassEvent(event);
 		        	
 		        	if(moving)
 		        	{
@@ -223,6 +227,9 @@ public class MenuPage extends Page{
 		        	{
 			        	current_moveX = prev_downX - X;
 			        	cTotal_movedX += current_moveX;
+			        	cPage.get().setAlpha(1);
+			        	cPage.get().setAlpha(1 - Math.abs(cTotal_movedX / Data.content_width));
+			        	
 			        	if(moving || cTotal_movedX > 10 || cTotal_movedX < -10)
 			        	{
 			        		if(moving || cTotal_movedX > 25 || cTotal_movedX < -25)
@@ -233,6 +240,7 @@ public class MenuPage extends Page{
 				        	// Move the next page
 				        	if(cTotal_movedX > 0)
 				        	{
+				        		
 				        		if(curr_page >= count - 1 && cTotal_movedX > moveLeniency)
 				        			cTotal_movedX = moveLeniency;
 				        		nPage.get().setX(content_width - cTotal_movedX);
@@ -274,13 +282,13 @@ public class MenuPage extends Page{
 	
 	private void checkNextFade()
 	{
-		if(!faded && cTotal_movedX >= moveLeniency)
+		if(!faded && cTotal_movedX >= moveLeniency && curr_page < count - 1)
 		{
 			cPage.PlayAnimation(false);
 			//cPage.get().setAlpha(FADE_AMOUNT);
 			faded = true;
 		}
-		else if (faded && cTotal_movedX <= moveLeniency)
+		else if (faded && cTotal_movedX <= moveLeniency && curr_page < count - 1 )
 		{
 			cPage.PlayAnimation(true);
 			//cPage.get().setAlpha(FADE_AMOUNT);
@@ -290,13 +298,13 @@ public class MenuPage extends Page{
 	
 	private void checkPrevFade()
 	{
-		if(!faded && cTotal_movedX <= -moveLeniency)
+		if(!faded && cTotal_movedX <= -moveLeniency && curr_page > 0)
 		{
 			cPage.PlayAnimation(false);
 			//cPage.get().setAlpha(FADE_AMOUNT);
 			faded = true;
 		}
-		else if (faded && cTotal_movedX >= -moveLeniency)
+		else if (faded && cTotal_movedX >= -moveLeniency && curr_page > 0)
 		{
 			cPage.PlayAnimation(true);
 			//cPage.get().setAlpha(FADE_AMOUNT);
@@ -411,6 +419,7 @@ public class MenuPage extends Page{
 		cPage.get().setAlpha(1);
 		nPage.get().clearAnimation();
 		pPage.get().clearAnimation();
+		cPage.get().clearAnimation();
 		faded = false;
 	}
 	
@@ -427,6 +436,7 @@ public class MenuPage extends Page{
 		cPage.get().setAlpha(1);
 		nPage.get().clearAnimation();
 		pPage.get().clearAnimation();
+		cPage.get().clearAnimation();
 		faded = false;
 	}
 	
