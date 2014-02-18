@@ -1,7 +1,5 @@
 package data;
 
-import android.R;
-import android.graphics.Bitmap;
 
 public class ItemData {
 	public ItemData(int id, int subId, String name, 

@@ -106,6 +106,7 @@ public class MenuPage extends Page{
 				if(curr_page >= count)
 					nPage.get().setX(content_width - moveLeniency);
 				cTotal_movedX = moveLeniency;
+				checkNextFade();
 				checkMovement(2);
 			}
 			break;
@@ -118,6 +119,7 @@ public class MenuPage extends Page{
 					MainActivity.displayMessage("NOT WORKING? " + (-content_width + moveLeniency));
 				}
 				cTotal_movedX = -moveLeniency;
+				checkPrevFade();
 				checkMovement(2);
 				
 			}
@@ -235,18 +237,8 @@ public class MenuPage extends Page{
 				        			cTotal_movedX = moveLeniency;
 				        		nPage.get().setX(content_width - cTotal_movedX);
 				        		pPage.get().setX(-content_width);
-				        		if(cTotal_movedX > moveLeniency && !faded)
-				        		{
-				        			cPage.PlayAnimation(false);
-				        			//cPage.get().setAlpha(FADE_AMOUNT);
-				        			faded = true;
-				        		}
-				        		else if (faded && cTotal_movedX < moveLeniency)
-				        		{
-				        			cPage.PlayAnimation(true);
-				        			//cPage.get().setAlpha(FADE_AMOUNT);
-				        			faded = false;
-				        		}
+
+				        		checkNextFade();
 				        		//pPage.get().setX(-content_width);
 				        	}
 				        	// Move the previous page
@@ -257,18 +249,7 @@ public class MenuPage extends Page{
 				        		pPage.get().setX(-content_width - cTotal_movedX);
 				        		nPage.get().setX(content_width);
 				        		
-				        		if(cTotal_movedX < -moveLeniency && !faded)
-				        		{
-				        			cPage.PlayAnimation(false);
-				        			//cPage.get().setAlpha(FADE_AMOUNT);
-				        			faded = true;
-				        		}
-				        		else if (faded && cTotal_movedX > -moveLeniency)
-				        		{
-				        			cPage.PlayAnimation(true);
-				        			//cPage.get().setAlpha(FADE_AMOUNT);
-				        			faded = false;
-				        		}
+				        		checkPrevFade();
 				        		
 				        		//nPage.get().setX(content_width);
 				        	}
@@ -289,6 +270,38 @@ public class MenuPage extends Page{
 		    }
 		    
 		});
+	}
+	
+	private void checkNextFade()
+	{
+		if(!faded && cTotal_movedX >= moveLeniency)
+		{
+			cPage.PlayAnimation(false);
+			//cPage.get().setAlpha(FADE_AMOUNT);
+			faded = true;
+		}
+		else if (faded && cTotal_movedX <= moveLeniency)
+		{
+			cPage.PlayAnimation(true);
+			//cPage.get().setAlpha(FADE_AMOUNT);
+			faded = false;
+		}
+	}
+	
+	private void checkPrevFade()
+	{
+		if(!faded && cTotal_movedX <= -moveLeniency)
+		{
+			cPage.PlayAnimation(false);
+			//cPage.get().setAlpha(FADE_AMOUNT);
+			faded = true;
+		}
+		else if (faded && cTotal_movedX >= -moveLeniency)
+		{
+			cPage.PlayAnimation(true);
+			//cPage.get().setAlpha(FADE_AMOUNT);
+			faded = false;
+		}
 	}
 	
 	private void setDefaultX()
