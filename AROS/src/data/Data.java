@@ -52,6 +52,8 @@ public class Data {
 	public final static int PAGE_ITEM_LIST_TWO = 8004;
 	public final static int PAGE_ITEM_LIST_THREE = 8005;
 	
+	public final static int PAGE_ITEM_LARGE_IMAGE = 8006;
+	public final static int BTN_CUST_NUTRI_SWAP = 8007;
 	public static void Set(Resources resource, String package_name, Point display)
 	{
 		res = resource;

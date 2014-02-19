@@ -63,20 +63,20 @@ public class MenuSubPage extends Page{
 		fadeOut = new AlphaAnimation(1, FADE_AMOUNT);
 		//fadeOut.setInterpolator(new AccelerateInterpolator()); //and this
 		//fadeOut.setStartOffset(200);
-		fadeOut.setDuration(250);
+		fadeOut.setDuration(300);
 		fadeOut.setFillAfter(true);
 		
 		fadeIn = new AlphaAnimation(FADE_AMOUNT, 1);
 		//fadeIn.setInterpolator(new AccelerateInterpolator()); //and this
 		//fadeIn.setStartOffset(200);
-		fadeIn.setDuration(250);
+		fadeIn.setDuration(300);
 		fadeIn.setFillAfter(true);
 		
 		this.items = new ItemButton[6];
 		
 		for(int i = 0; i < 6; i++)
 		{
-			items[i] = new ItemButton(a, Data.item_btn_width, Data.item_btn_height, i);
+			items[i] = new ItemButton(a, Data.item_btn_width, Data.item_btn_height, i, true);
 			
 			if(i % 2 == 0)
 				this.leftColumn.addView(this.items[i].Get());

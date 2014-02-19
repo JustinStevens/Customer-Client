@@ -40,10 +40,10 @@ public class MainPage extends Page {
 		this.pLayout.addView(SetButton(a, "Call Waiter", Data.BTN_CALL_ID, btnX, btnY + btnYAdjust * 3, this.menuButton_width, this.menuButton_height));
 		this.pLayout.addView(SetButton(a, "Checkout", Data.BTN_CHECKOUT_ID, btnX, btnY + btnYAdjust * 4, this.menuButton_width, this.menuButton_height));
 		
-		special_btn_1 = new SpecialsButton(a, adSize, adSize, Data.BTN_SPECIAL_1_ID, pWidth - adSize * 2, 0);
-		special_btn_2 = new SpecialsButton(a, adSize, adSize, Data.BTN_SPECIAL_2_ID, pWidth - adSize, 0);
-		special_btn_3 = new SpecialsButton(a, adSize, adSize, Data.BTN_SPECIAL_3_ID, pWidth - adSize * 2, adSize);
-		special_btn_4 = new SpecialsButton(a, adSize, adSize, Data.BTN_SPECIAL_4_ID, pWidth - adSize, adSize);
+		special_btn_1 = new SpecialsButton(a, adSize, adSize, Data.BTN_SPECIAL_1_ID, pWidth - adSize * 2, 0, true);
+		special_btn_2 = new SpecialsButton(a, adSize, adSize, Data.BTN_SPECIAL_2_ID, pWidth - adSize, 0, true);
+		special_btn_3 = new SpecialsButton(a, adSize, adSize, Data.BTN_SPECIAL_3_ID, pWidth - adSize * 2, adSize, true);
+		special_btn_4 = new SpecialsButton(a, adSize, adSize, Data.BTN_SPECIAL_4_ID, pWidth - adSize, adSize, true);
 		
 		special_btn_1.setData(sData[0]);
 		special_btn_2.setData(sData[1]);
@@ -61,4 +61,5 @@ public class MainPage extends Page {
 	{
 		a.OnClick(v);
 	}
+
 }

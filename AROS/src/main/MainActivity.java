@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 import data.DBHelper;
 import data.Data;
+import data.HashKey;
 import data.MenuData;
 import data.SpecialsData;
 import framework.Page;
@@ -109,35 +110,45 @@ public class MainActivity extends Activity {
 	
 	public void OnClick(View v)
 	{
-		switch(v.getId())
+		handleClick(v.getId());
+	}
+	
+	int idIfOnlyOne = 0;
+	
+	public void handleClick(int id)
+	{
+		switch(id)
 		{
 		case Data.BTN_MENU_RETURN: OnClickReturn();  return;
 		case Data.BTN_MENU_HOME: setPage(MAIN_PAGE); return;
 		case Data.BTN_MENU_ID: setPage(CATEGORY_PAGE); return;
 		default: 
-			if(v.getId() >= Data.BTN_MENU_LIST_START && v.getId() <= Data.BTN_MENU_LIST_MAX)
+			if(id >= Data.BTN_MENU_LIST_START && id <= Data.BTN_MENU_LIST_MAX)
 			{
-				cCategoryId = v.getId() - Data.BTN_MENU_LIST_START;
-				((CategoryPage)pages.get(SUBCATEGORY_PAGE)).setCategoryData(mData.scData, cCategoryId);
+				cCategoryId = id - Data.BTN_MENU_LIST_START;
 				setPage(SUBCATEGORY_PAGE); 
+				idIfOnlyOne = ((CategoryPage)pages.get(SUBCATEGORY_PAGE)).setCategoryData(mData.scData, cCategoryId);
+				if(idIfOnlyOne != 0)
+					handleClick(idIfOnlyOne);
 			}
-			else if(v.getId() >= Data.BTN_SUBMENU_LIST_START && v.getId() <= Data.BTN_SUBMENU_LIST_MAX)
+			else if(id >= Data.BTN_SUBMENU_LIST_START && id <= Data.BTN_SUBMENU_LIST_MAX)
 			{
-				cSubCategoryId = v.getId() - Data.BTN_SUBMENU_LIST_START;
+				cSubCategoryId = id - Data.BTN_SUBMENU_LIST_START;
 				setPage(MENU_PAGE); 
 				((MenuPage)pages.get(MENU_PAGE)).SetMenuData(mData.iData, cSubCategoryId);
 			}
-			else if(v.getId() >= Data.BTN_ITEM_START && v.getId() <= Data.BTN_ITEM_MAX)
+			else if(id >= Data.BTN_ITEM_START && id <= Data.BTN_ITEM_MAX)
 			{
 				
-				//cSubCategoryId = v.getId() - Data.BTN_SUBMENU_LIST_START;
+				int itemId = id - Data.BTN_ITEM_START;
 				setPage(ITEM_PAGE); 
+				((ItemPage)pages.get(ITEM_PAGE)).SetItemData(mData.iData.get(new HashKey(itemId, 0)));
+				
+
 				//((MenuPage)pages.get(MENU_PAGE)).SetMenuData(mData.iData, cSubCategoryId);
 			}
-			MainActivity.displayMessage("HERE" + v.getId() );
 		return;
 		}
-		
 	}
 	
 	private void OnClickReturn()
@@ -153,8 +164,13 @@ public class MainActivity extends Activity {
 			setPage(CATEGORY_PAGE);		
 			break;
 		case MENU_PAGE:	
-			setPage(SUBCATEGORY_PAGE);	
-			((CategoryPage)pages.get(SUBCATEGORY_PAGE)).setCategoryData(mData.scData, cCategoryId);
+			if(idIfOnlyOne == 0)
+			{
+				setPage(SUBCATEGORY_PAGE);	
+				((CategoryPage)pages.get(SUBCATEGORY_PAGE)).setCategoryData(mData.scData, cCategoryId);
+			}
+			else
+				setPage(CATEGORY_PAGE);		
 			break;
 		case ITEM_PAGE:	
 			setPage(MENU_PAGE);	
@@ -166,13 +182,15 @@ public class MainActivity extends Activity {
 	{
 		if(pages.containsKey(cPage_index))
 		{
+			pages.get(cPage_index).enableDisableView(false);
 			pages.get(cPage_index).setVisible(false, true);
-			pages.get(cPage_index).get().setClickable(false);
 		}
 		if(pages.containsKey(index))
 		{
+			pages.get(index).enableDisableView(true);
 			pages.get(index).setVisible(true, true);
-			pages.get(index).get().setClickable(true);
+			//pages.get(index).get().setClickable(true);
+			//pages.get(index).get().setEnabled(true);
 		}
 
 		cPage_index = index;

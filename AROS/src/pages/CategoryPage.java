@@ -5,6 +5,7 @@ import java.util.TreeMap;
 
 import main.MainActivity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import buttons.BarButtons;
@@ -75,10 +76,10 @@ public class CategoryPage extends Page {
 		}
 	}
 	
-	public void setCategoryData(TreeMap<HashKey, SubCategoryData> scData, int categoryId)
+	public int setCategoryData(TreeMap<HashKey, SubCategoryData> scData, int categoryId)
 	{
 		int pos = 0;
-
+		int id = 0;
 		cLayout.removeAllViews();
 		
 		for(Map.Entry<HashKey, SubCategoryData> entry : scData.entrySet()) 
@@ -86,7 +87,8 @@ public class CategoryPage extends Page {
 			if(((HashKey)entry.getKey()).parentId == categoryId)
 			{
 				SubCategoryData value = entry.getValue();
-			
+				id = value.id;
+				
 				if(pos % 2 == 0)
 			    	this.cLayout.addView(SetButton(a, value.name, Data.BTN_SUBMENU_LIST_START + value.id, btnR1X, btnY + btnYAdjust * (pos / 2), this.menuButton_width, this.menuButton_height));
 			    else
@@ -94,6 +96,11 @@ public class CategoryPage extends Page {
 			    pos++;
 			}
 		}
+
+		if(pos == 1)
+			return id + Data.BTN_SUBMENU_LIST_START;
+
+		return 0;
 	}
 	
 	public void OnClick(View v)

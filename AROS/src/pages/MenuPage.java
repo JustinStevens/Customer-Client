@@ -145,6 +145,7 @@ public class MenuPage extends Page{
 		
 		SetPrevPage();
 		SetNextPage();
+		setNextPrevButtonSettings();
 	}
 	
 	int prev_downX;
@@ -364,6 +365,7 @@ public class MenuPage extends Page{
 				pPage.PlayAnimation((-content_width - cTotal_movedX), 0, -1);
 				//pPage.PlayAnimation((int)(pPage.get().getX()), 0);
 				//pPage.get().setX(0);
+				setNextPrevButtonSettings();
 				SwapPrevPage();
 				//curr_page--;
 			}
@@ -387,6 +389,7 @@ public class MenuPage extends Page{
 				nPage.get().setX(0);
 				nPage.PlayAnimation((content_width - cTotal_movedX), 0, 1);
 				SwapNextPage();
+				setNextPrevButtonSettings();
 				//curr_page++;
 			}
 			else
@@ -403,6 +406,30 @@ public class MenuPage extends Page{
 			//SwapNextPage();
 			
 			//setDefaultX();
+		}
+	}
+	
+	private void setNextPrevButtonSettings()
+	{
+		if(curr_page <= 0)
+		{
+			btn_prev.setAlpha(0.4f);
+			btn_prev.setClickable(false);
+		}
+		else
+		{
+			btn_prev.setAlpha(1f);
+			btn_prev.setClickable(true);
+		}
+		if(curr_page >= count - 1)
+		{
+			btn_next.setAlpha(0.4f);
+			btn_next.setClickable(false);
+		}
+		else
+		{
+			btn_next.setAlpha(1f);
+			btn_next.setClickable(true);
 		}
 	}
 	

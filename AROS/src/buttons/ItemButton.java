@@ -3,6 +3,7 @@ package buttons;
 import main.MainActivity;
 import android.graphics.Color;
 import android.view.View;
+import data.Data;
 import data.ItemData;
 import framework.Gradients;
 import framework.ImageButton;
@@ -10,14 +11,14 @@ import framework.ImageButton;
 public class ItemButton extends ImageButton {
 	private static int MARGINS = 1;
 		
-	public ItemButton(MainActivity a, int width, int height, int id)
+	public ItemButton(MainActivity a, int width, int height, int id, boolean addButton)
 	{
-		super(a, id, width, height, MARGINS);
+		super(a, id, width, height, MARGINS, addButton);
 	}
 	
-	public ItemButton(MainActivity a, int width, int height, int id, int x, int y)
+	public ItemButton(MainActivity a, int width, int height, int id, int x, int y, boolean addButton)
 	{
-		super(a, id, width, height, MARGINS, x, y);
+		super(a, id, width, height, MARGINS, x, y, addButton);
 	}
 	
 	@Override
@@ -27,6 +28,7 @@ public class ItemButton extends ImageButton {
 
 	@Override
 	protected void setGradients(int width, int height) {
+		
 		lbl_top_gradient = Gradients.SetGradient(
 				new int[] { Color.argb(200, 180, 0, 0), Color.argb(200, 180, 0, 0), Color.argb(200, 180, 0, 0)}, 
 				new float[]{ 0, 0, 0, 0, height / 6, height / 6, 0, 0 },
@@ -50,18 +52,43 @@ public class ItemButton extends ImageButton {
 	
 	public void setData(ItemData iData)
 	{
+		setText(Data.item_btn_height, iData.name, "$" + iData.price / 100);
 		lbl_top.setText(iData.name);
 		lbl_btm.setText("$" + iData.price / 100);
 		setImage(iData.smallImgResId);
 	}
+	
+	@SuppressWarnings("deprecation")
+	public void setData(String top_lbl, String btm_lbl, int imgRes, int sizeAdjust)
+	{
+		setText(sizeAdjust, top_lbl, btm_lbl);
+		setGradients(sizeAdjust, sizeAdjust);
+		this.lbl_top.setBackgroundDrawable(lbl_top_gradient);
+		this.lbl_btm.setBackgroundDrawable(lbl_btm_gradient);
+		setImage(imgRes);
+	}
 
 	@Override
 	protected void setText(int height, String top_text, String btm_text) {
-		 lbl_top.setText(top_text);
-		 lbl_top.setTextSize(height / 8);
+		if(top_text != null)
+		{
+			 lbl_top.setText(top_text);
+			 if(height > 0)
+				 lbl_top.setTextSize(height / 8);
+			 lbl_top.setVisibility(View.VISIBLE);
+		}
+		else
+			lbl_top.setVisibility(View.GONE);
 		 
-		 lbl_btm.setText(btm_text);
-		 lbl_btm.setTextSize(height / 8);
+		if(btm_text != null)
+		{
+			 lbl_btm.setText(btm_text);
+			 if(height > 0)
+				 lbl_btm.setTextSize(height / 8);
+			 lbl_btm.setVisibility(View.VISIBLE);
+		}
+		else
+			lbl_btm.setVisibility(View.GONE);
 	}
 
 	@Override

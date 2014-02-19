@@ -31,20 +31,20 @@ public abstract class ImageButton {
 	
 	protected MainActivity a;
 	
-	protected ImageButton(MainActivity a, int id, int width, int height, int margins)
+	protected ImageButton(MainActivity a, int id, int width, int height, int margins, boolean addButton)
 	{
-		init(a, id, width, height, margins);
+		init(a, id, width, height, margins, addButton);
 	}
 	
-	protected ImageButton(MainActivity a, int id, int width, int height, int margins, int x, int y)
+	protected ImageButton(MainActivity a, int id, int width, int height, int margins, int x, int y, boolean addButton)
 	{
-		init(a, id, width, height, margins);
+		init(a, id, width, height, margins, addButton);
 		container.setX(x);
 		container.setY(y);
 	}
 	
 	@SuppressWarnings("deprecation")
-	private void init(MainActivity a, int id, int width, int height, int margins)
+	private void init(MainActivity a, int id, int width, int height, int margins, boolean addButton)
 	{
 		width = width - (margins * 2);
 		height = height - (margins * 2);
@@ -57,15 +57,18 @@ public abstract class ImageButton {
 		this.container = new RelativeLayout(a);
 		this.container.setLayoutParams(params);
 		
-		params = new RelativeLayout.LayoutParams(width, height);
-		
-		StateListDrawable states = new StateListDrawable();
-	    states.addState(new int[] {android.R.attr.state_pressed}, btn_psd_gradient);
-	    states.addState(new int[] { }, btn_nml_gradient);
-		
-		this.btn = new Button(a);
-		this.btn.setBackgroundDrawable(states);
-		this.btn.setLayoutParams(params);
+	    if(addButton)
+	    {
+	    	params = new RelativeLayout.LayoutParams(width, height);
+			
+			StateListDrawable states = new StateListDrawable();
+		    states.addState(new int[] {android.R.attr.state_pressed}, btn_psd_gradient);
+		    states.addState(new int[] { }, btn_nml_gradient);
+		    
+	    	this.btn = new Button(a);
+			this.btn.setBackgroundDrawable(states);
+			this.btn.setLayoutParams(params);
+	    }
 		
 		params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		
@@ -95,20 +98,23 @@ public abstract class ImageButton {
 		this.img.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		this.img.setLayoutParams(params);
 		
-		setText(height, "", "");
+		setText(height, null, null);
 		setImage(0);
-		
-		btn.setId(this.id);
-		btn.setOnClickListener(new Button.OnClickListener() {
-		    public void onClick(View v) {
-		    	OnClick(v);
-		    }
-		});
-		
+
 		this.container.addView(img);
 		this.container.addView(lbl_top);
 		this.container.addView(lbl_btm);
-		this.container.addView(btn);
+		
+		if(addButton)
+		{
+			this.container.addView(btn);
+			btn.setId(this.id);
+			btn.setOnClickListener(new Button.OnClickListener() {
+			    public void onClick(View v) {
+			    	OnClick(v);
+			    }
+			});
+		}
 	}
 	
 	protected abstract void setImage(int resId);

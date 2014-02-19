@@ -12,14 +12,14 @@ public class SpecialsButton extends ImageButton {
 	int width;
 	int height;
 	
-	public SpecialsButton(MainActivity a, int width, int height, int id)
+	public SpecialsButton(MainActivity a, int width, int height, int id, boolean addButton)
 	{
-		super(a, id, width, height, MARGINS);
+		super(a, id, width, height, MARGINS, addButton);
 	}
 	
-	public SpecialsButton(MainActivity a, int width, int height, int id, int x, int y)
+	public SpecialsButton(MainActivity a, int width, int height, int id, int x, int y, boolean addButton)
 	{
-		super(a, id, width, height, MARGINS, x, y);
+		super(a, id, width, height, MARGINS, x, y, addButton);
 	}
 
 	@Override

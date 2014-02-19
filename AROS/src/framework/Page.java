@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -64,7 +65,24 @@ public abstract class Page {
 				//new float[]{ 0, 0, menuButton_topR_Xradius, menuButton_topR_Yradius, menuButton_btmR_Xradius, menuButton_btmR_Yradius, 0, 0 },
 				Color.DKGRAY, 1);
 	}
+	
+	public void enableDisableView(boolean enabled) 
+	{
+		enableDisableView(this.pLayout, enabled) ;
+	}
 
+	private void enableDisableView(View view, boolean enabled) 
+	{
+	    view.setEnabled(enabled);
+
+	    if ( view instanceof ViewGroup ) 
+	    {
+	        ViewGroup group = (ViewGroup)view;
+
+	        for ( int idx = 0 ; idx < group.getChildCount() ; idx++ ) 
+	            enableDisableView(group.getChildAt(idx), enabled);
+	    }
+	}
 	
 	protected Button SetButton(Activity a, String text, int id, int x, int y, int width, int height)
 	{		
@@ -136,16 +154,20 @@ public abstract class Page {
 	{
 		return animPlaying;
 	}
-
-	public void setVisible(boolean b, boolean playAnim) {
-		if(!b)
+	
+	public void setVisible(boolean visible, boolean playAnim) {
+		if(!visible)
 		{
+			pLayout.setClickable(false);
+			pLayout.setEnabled(false);
 			if(playAnim)
 				PlayAnimation(PLAY_DISAPPEAR_ANIMATION);
 			pLayout.setVisibility(View.GONE);
 		}
 		else
 		{
+			pLayout.setClickable(false);
+			pLayout.setEnabled(false);
 			if(playAnim)
 				PlayAnimation(PLAY_APPEAR_ANIMATION);
 			pLayout.setVisibility(View.VISIBLE);
