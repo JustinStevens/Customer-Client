@@ -51,7 +51,7 @@ public class MenuPage extends Page{
 		
 		this.moveThreshold = (int) (content_width * 0.33);
 		this.swipeThreshold = (int) (content_width * 0.2);
-		this.moveLeniency = content_width / 20;
+		this.moveLeniency = content_width / 22;
 		
 		cPage = new MenuSubPage(a, Data.PAGE_ITEM_LIST_ONE, content_width, content_height, this);
 		pPage = new MenuSubPage(a, Data.PAGE_ITEM_LIST_TWO, content_width, content_height, this);
@@ -111,10 +111,7 @@ public class MenuPage extends Page{
 			if(!nPage.IsInAnimationPlaying() && !pPage.IsInAnimationPlaying() && !cPage.IsInAnimationPlaying())
 			{
 				if(curr_page <= 0)
-				{
 					pPage.get().setX(-content_width + moveLeniency);
-					MainActivity.displayMessage("NOT WORKING? " + (-content_width + moveLeniency));
-				}
 				cTotal_movedX = -moveLeniency;
 				checkPrevFade();
 				checkMovement(2);
@@ -138,7 +135,7 @@ public class MenuPage extends Page{
 			if(((HashKey)entry.getKey()).parentId == subId)
 				list.add(entry.getValue());
 		}
-		MainActivity.displayMessage("COUNT " + list.size());
+
 		cPage.SetButtonData(list, 0);
 		count = (list.size() + 5) / 6;
 		curr_page = 0;
@@ -354,7 +351,7 @@ public class MenuPage extends Page{
 	
 	private void animate(boolean stayOnPage)
 	{
-		//MainActivity.displayMessage(nPage.get().getX());
+
 		if(cTotal_movedX < 0)
 		{
 			if(stayOnPage && curr_page - 1 >= 0)
@@ -362,7 +359,7 @@ public class MenuPage extends Page{
 				curr_page--;
 				//SetPrevPage();
 				pPage.get().setX(0);
-				pPage.PlayAnimation((-content_width - cTotal_movedX), 0, -1);
+				pPage.PlayAnimation((-content_width - cTotal_movedX), 0, -1, 350);
 				//pPage.PlayAnimation((int)(pPage.get().getX()), 0);
 				//pPage.get().setX(0);
 				setNextPrevButtonSettings();
@@ -372,7 +369,7 @@ public class MenuPage extends Page{
 			else
 			{
 				pPage.get().setX(-content_width);
-				pPage.PlayAnimation(-cTotal_movedX, 0, 0);
+				pPage.PlayAnimation(-cTotal_movedX, 0, 0, 100);
 				if(faded)
 				{
 					cPage.PlayAnimation(true);
@@ -387,7 +384,7 @@ public class MenuPage extends Page{
 			{
 				curr_page++;
 				nPage.get().setX(0);
-				nPage.PlayAnimation((content_width - cTotal_movedX), 0, 1);
+				nPage.PlayAnimation((content_width - cTotal_movedX), 0, 1, 350);
 				SwapNextPage();
 				setNextPrevButtonSettings();
 				//curr_page++;
@@ -395,7 +392,7 @@ public class MenuPage extends Page{
 			else
 			{
 				nPage.get().setX(content_width);
-				nPage.PlayAnimation( -cTotal_movedX, 0, 0);
+				nPage.PlayAnimation( -cTotal_movedX, 0, 0, 100);
 				if(faded)
 				{
 					cPage.PlayAnimation(true);
@@ -413,7 +410,7 @@ public class MenuPage extends Page{
 	{
 		if(curr_page <= 0)
 		{
-			btn_prev.setAlpha(0.4f);
+			btn_prev.setAlpha(0.35f);
 			btn_prev.setClickable(false);
 		}
 		else
@@ -423,7 +420,7 @@ public class MenuPage extends Page{
 		}
 		if(curr_page >= count - 1)
 		{
-			btn_next.setAlpha(0.4f);
+			btn_next.setAlpha(0.35f);
 			btn_next.setClickable(false);
 		}
 		else

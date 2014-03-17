@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.aros.R;
+
 import pages.CategoryPage;
 import pages.ItemPage;
 import pages.MainPage;
@@ -69,6 +71,7 @@ public class MainActivity extends Activity {
 		pages = new HashMap<Integer, Page>();
 		
 		container = new RelativeLayout(this);
+		
 		SpecialsData[] sdata = new SpecialsData[4];
 		sdata[0] = new SpecialsData(0, getResources().getIdentifier("drawable/special1", null, Data.packageName), "Cheescake", "1% Off until February 31st!");
 		sdata[1] = new SpecialsData(1, getResources().getIdentifier("drawable/special2", null, Data.packageName), "Birthday Cake", "2% Off until tomorrow!");

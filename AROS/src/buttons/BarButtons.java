@@ -25,11 +25,11 @@ public class BarButtons {
 		
 		this.bLayout = new RelativeLayout(a);
 		this.bLayout.setLayoutParams(params);
-		this.bLayout.setBackgroundColor(Color.WHITE);
+		this.bLayout.setBackgroundColor(Color.DKGRAY);
 		
 		btn_home = SetButton("Home", Data.BTN_MENU_HOME, (Data.content_width / 2 - (int)((Data.bar_btn_width - Data.bar_btn_width) / 2)), 0, Data.bar_btn_width, Data.bar_height);
 		btn_return = SetButton("Return", Data.BTN_MENU_RETURN, (Data.content_width / 2 - (int)((Data.bar_btn_width + Data.bar_btn_width) / 2)), 0, Data.bar_btn_width, Data.bar_height);
-		
+
 		bLayout.addView(btn_home);
 		bLayout.addView(btn_return);
 	}

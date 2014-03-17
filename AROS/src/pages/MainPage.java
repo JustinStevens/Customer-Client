@@ -1,5 +1,7 @@
 package pages;
 
+import com.aros.R;
+
 import main.MainActivity;
 import android.view.View;
 import buttons.SpecialsButton;
@@ -54,6 +56,8 @@ public class MainPage extends Page {
 		this.pLayout.addView(special_btn_2.Get());
 		this.pLayout.addView(special_btn_3.Get());
 		this.pLayout.addView(special_btn_4.Get());
+		
+		this.pLayout.setBackgroundDrawable(a.getResources().getDrawable(R.drawable.background720));
 	}
 	
 	

@@ -33,18 +33,30 @@ public abstract class ImageButton {
 	
 	protected ImageButton(MainActivity a, int id, int width, int height, int margins, boolean addButton)
 	{
-		init(a, id, width, height, margins, addButton);
+		init(a, id, width, height, margins, addButton, true);
+	}
+	
+	protected ImageButton(MainActivity a, int id, int width, int height, int margins, boolean addButton, boolean border)
+	{
+		init(a, id, width, height, margins, addButton, border);
 	}
 	
 	protected ImageButton(MainActivity a, int id, int width, int height, int margins, int x, int y, boolean addButton)
 	{
-		init(a, id, width, height, margins, addButton);
+		init(a, id, width, height, margins, addButton, true);
+		container.setX(x);
+		container.setY(y);
+	}
+	
+	protected ImageButton(MainActivity a, int id, int width, int height, int margins, int x, int y, boolean addButton, boolean border)
+	{
+		init(a, id, width, height, margins, addButton, border);
 		container.setX(x);
 		container.setY(y);
 	}
 	
 	@SuppressWarnings("deprecation")
-	private void init(MainActivity a, int id, int width, int height, int margins, boolean addButton)
+	private void init(MainActivity a, int id, int width, int height, int margins, boolean addButton, boolean border)
 	{
 		width = width - (margins * 2);
 		height = height - (margins * 2);
@@ -53,10 +65,13 @@ public abstract class ImageButton {
 		setGradients(width, height);
 		
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
-		
+
 		this.container = new RelativeLayout(a);
 		this.container.setLayoutParams(params);
-		
+		this.container.setBackgroundColor(Color.DKGRAY);
+		if(border)
+			this.container.setPadding(3,3,3,3);
+
 	    if(addButton)
 	    {
 	    	params = new RelativeLayout.LayoutParams(width, height);
@@ -97,7 +112,7 @@ public abstract class ImageButton {
 		this.img = new ImageView(a);
 		this.img.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		this.img.setLayoutParams(params);
-		
+
 		setText(height, null, null);
 		setImage(0);
 
@@ -116,7 +131,7 @@ public abstract class ImageButton {
 			});
 		}
 	}
-	
+
 	protected abstract void setImage(int resId);
 	protected abstract void setGradients(int width, int height);
 	protected abstract void setText(int height, String top_text, String btm_text);

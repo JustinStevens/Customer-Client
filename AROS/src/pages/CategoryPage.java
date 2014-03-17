@@ -5,10 +5,12 @@ import java.util.TreeMap;
 
 import main.MainActivity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import buttons.BarButtons;
+
+import com.aros.R;
+
 import data.CategoryData;
 import data.Data;
 import data.HashKey;
@@ -38,8 +40,8 @@ public class CategoryPage extends Page {
 		this.width = width;
 		this.height = height;
 
-		this.menuButton_width 	= width / 3;
-		this.menuButton_height	= (int) (height * 0.70 / 5);
+		this.menuButton_width 	= width / 2 - width / 20;
+		this.menuButton_height	= (int) (height * 0.80 / 5);
 		
 		this.cLayout = new RelativeLayout(a);
 		this.cLayout.setLayoutParams(new LayoutParams(Data.content_width, Data.content_height));
@@ -47,13 +49,14 @@ public class CategoryPage extends Page {
 		btnR1X = (int)((width / 2 - menuButton_width * 1.1));
 		btnR2X = (int)((width / 2 + menuButton_width * 0.1));
 		btnYAdjust = (int) ((height - (height * 0.2)) / 5);
-		btnY = (int)((height * 0.1) );
+		btnY = (int)((height * 0.025) );
 		
 		if(this.menuButton_height > menuButton_width / 2.5)
 			this.menuButton_height = (int) (menuButton_width / 2.5);
 
 		this.pLayout.addView(cLayout);
 		this.pLayout.addView(new BarButtons(a).get());
+		this.pLayout.setBackgroundDrawable(a.getResources().getDrawable(R.drawable.background720));
 		//this.pLayout.addView(btn_home);
 		//this.pLayout.addView(btn_return);
 	}

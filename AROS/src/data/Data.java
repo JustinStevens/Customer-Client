@@ -53,7 +53,11 @@ public class Data {
 	public final static int PAGE_ITEM_LIST_THREE = 8005;
 	
 	public final static int PAGE_ITEM_LARGE_IMAGE = 8006;
-	public final static int BTN_CUST_NUTRI_SWAP = 8007;
+	public final static int BTN_ITEM_DESCRIPTION = 8007;
+	public final static int BTN_ITEM_NUTRITION = 8008;
+	public final static int BTN_ITEM_ORDER = 8009;
+	public final static int BTN_ITEM_ADDTOCART = 8010;
+	
 	public static void Set(Resources resource, String package_name, Point display)
 	{
 		res = resource;
@@ -67,7 +71,7 @@ public class Data {
 		content_height = (int) (height * 0.88);
 		
 		bar_width = content_width;
-		bar_height = (int) (height * 0.12);
+		bar_height = (int) (height - content_height);
 		bar_btn_width = (int) (bar_height * 2.5);
 		
 		item_btn_width = (content_width) / 2 + 1;

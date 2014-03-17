@@ -61,14 +61,10 @@ public class MenuSubPage extends Page{
 		this.rightColumn.setLayoutParams(params);
 		
 		fadeOut = new AlphaAnimation(1, FADE_AMOUNT);
-		//fadeOut.setInterpolator(new AccelerateInterpolator()); //and this
-		//fadeOut.setStartOffset(200);
 		fadeOut.setDuration(300);
 		fadeOut.setFillAfter(true);
 		
 		fadeIn = new AlphaAnimation(FADE_AMOUNT, 1);
-		//fadeIn.setInterpolator(new AccelerateInterpolator()); //and this
-		//fadeIn.setStartOffset(200);
 		fadeIn.setDuration(300);
 		fadeIn.setFillAfter(true);
 		
@@ -130,18 +126,18 @@ public class MenuSubPage extends Page{
 			pLayout.startAnimation(fadeOut);
 	}
 	
-	public void PlayAnimation(int startX, int endX, int direction)
+	public void PlayAnimation(int startX, int endX, int direction, int duration)
 	{
-		SetAnimation(startX, endX, direction);	
+		SetAnimation(startX, endX, direction, duration);	
 		pLayout.startAnimation(slideAnimation);
 	}
 	
 	private Animation slideAnimation;
 	
-	public void SetAnimation(int startX, int endX, final int direction)
+	public void SetAnimation(int startX, int endX, final int direction, int duration)
 	{
 		slideAnimation = new TranslateAnimation(startX, endX, 0, 0);
-		slideAnimation.setDuration(350);
+		slideAnimation.setDuration(duration);
 		slideAnimation.setInterpolator(new DecelerateInterpolator());
 		slideAnimation.setAnimationListener(new Animation.AnimationListener() 
 		{

@@ -10,15 +10,26 @@ import framework.ImageButton;
 
 public class ItemButton extends ImageButton {
 	private static int MARGINS = 1;
+	private float fontScale = 1;
 		
 	public ItemButton(MainActivity a, int width, int height, int id, boolean addButton)
 	{
 		super(a, id, width, height, MARGINS, addButton);
 	}
 	
+	public ItemButton(MainActivity a, int width, int height, int id, boolean addButton, boolean border)
+	{
+		super(a, id, width, height, MARGINS, addButton, border);
+	}
+	
 	public ItemButton(MainActivity a, int width, int height, int id, int x, int y, boolean addButton)
 	{
 		super(a, id, width, height, MARGINS, x, y, addButton);
+	}
+	
+	public ItemButton(MainActivity a, int width, int height, int id, int x, int y, boolean addButton, boolean border)
+	{
+		super(a, id, width, height, MARGINS, x, y, addButton, border);
 	}
 	
 	@Override
@@ -30,12 +41,12 @@ public class ItemButton extends ImageButton {
 	protected void setGradients(int width, int height) {
 		
 		lbl_top_gradient = Gradients.SetGradient(
-				new int[] { Color.argb(200, 180, 0, 0), Color.argb(200, 180, 0, 0), Color.argb(200, 180, 0, 0)}, 
+				new int[] { Color.argb(180, 180, 0, 0), Color.argb(180, 180, 0, 0), Color.argb(180, 180, 0, 0)}, 
 				new float[]{ 0, 0, 0, 0, height / 6, height / 6, 0, 0 },
 				Color.DKGRAY, 1);
 		
 		lbl_btm_gradient = Gradients.SetGradient(
-				new int[] { Color.argb(200, 50, 50, 50), Color.argb(200, 50, 50, 50), Color.argb(200, 50, 50, 50)}, 
+				new int[] { Color.argb(180, 50, 50, 50), Color.argb(180, 50, 50, 50), Color.argb(180, 50, 50, 50)}, 
 				new float[]{ height / 6, height / 6, 0, 0, 0, 0, 0, 0 },
 				Color.DKGRAY, 1);
 		
@@ -58,6 +69,11 @@ public class ItemButton extends ImageButton {
 		setImage(iData.smallImgResId);
 	}
 	
+	public void setFontScale(float fontScale)
+	{
+		this.fontScale = fontScale;
+	}
+	
 	@SuppressWarnings("deprecation")
 	public void setData(String top_lbl, String btm_lbl, int imgRes, int sizeAdjust)
 	{
@@ -74,7 +90,7 @@ public class ItemButton extends ImageButton {
 		{
 			 lbl_top.setText(top_text);
 			 if(height > 0)
-				 lbl_top.setTextSize(height / 8);
+				 lbl_top.setTextSize(height / 8 * fontScale);
 			 lbl_top.setVisibility(View.VISIBLE);
 		}
 		else
@@ -84,7 +100,7 @@ public class ItemButton extends ImageButton {
 		{
 			 lbl_btm.setText(btm_text);
 			 if(height > 0)
-				 lbl_btm.setTextSize(height / 8);
+				 lbl_btm.setTextSize(height / 8 * fontScale);
 			 lbl_btm.setVisibility(View.VISIBLE);
 		}
 		else
